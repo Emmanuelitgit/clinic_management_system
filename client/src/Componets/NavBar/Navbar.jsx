@@ -20,7 +20,7 @@ const Navbar = () => {
   //  const role = useSelector((state)=>state.auth?.role) || []
    const visible = useSelector((state)=>state.modal?.sidebar_toggle) || []
    const roleValue = localStorage.getItem('role')
-   const role = roleValue.charAt(0).toUpperCase() + roleValue.slice(1);
+   const role = roleValue?.charAt(0).toUpperCase() + roleValue.slice(1);
    const user = localStorage.getItem('user')
   //  const [visible, setVisible] = useState(false)
 
@@ -74,51 +74,3 @@ const Navbar = () => {
 }
 
 export default Navbar
-
-// import Button from 'react-bootstrap/Button';
-// import Container from 'react-bootstrap/Container';
-// import Form from 'react-bootstrap/Form';
-// import Nav from 'react-bootstrap/Nav';
-// import Navbar from 'react-bootstrap/Navbar';
-// import NavDropdown from 'react-bootstrap/NavDropdown';
-
-// function NavScrollExample() {
-//   return (
-//     <Navbar expand="lg" className="bg-body-tertiary"
-//     style={{
-//       position:'fixed',
-//       zIndex:1,
-//       width:'100%',
-//       right:'0%',
-//       height:"10%"
-//     }}>
-//       <Container fluid>
-//         <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
-//         <Navbar.Toggle aria-controls="navbarScroll" />
-//         <Navbar.Collapse id="navbarScroll">
-//           <Nav
-//             className="me-auto my-2 my-lg-0"
-//             style={{ maxHeight: '100px' }}
-//             navbarScroll
-//           >
-//             <Nav.Link href="#action1">Home</Nav.Link>
-//             <Nav.Link href="#action2">Link</Nav.Link>
-//             <Nav.Link href="#" disabled>
-//               Link
-//             </Nav.Link>
-//           </Nav>
-//           <Form className="d-flex">
-//             <Form.Control
-//               type="search"
-//               placeholder="Search"
-//               className="me-2"
-//               aria-label="Search"
-//             />
-//           </Form>
-//         </Navbar.Collapse>
-//       </Container>
-//     </Navbar>
-//   );
-// }
-
-// export default NavScrollExample;

@@ -47,7 +47,7 @@ const Login = () => {
     try {
       const response = await axios.post("http://localhost:5000/login", credential);
   
-      if (response.status === 200) {
+      if (response?.status === 200) {
         const { role } = response.data.data[0]; 
         const { name } = response.data.data[0];
         const { token } = response.data;
@@ -79,7 +79,7 @@ const Login = () => {
         }, 1000);
       }
     } catch (error) {
-      if (error.response.status === 404) {
+      if (error.response?.status === 404) {
         console.log("user not found");
         showErrorToast()
       }
