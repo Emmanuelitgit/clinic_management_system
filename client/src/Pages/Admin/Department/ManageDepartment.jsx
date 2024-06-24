@@ -15,7 +15,7 @@ import axios from "axios";
 import { depCountActions } from '../../../store/depCount';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
-import { toast, Toaster } from 'react-hot-toast';
+import {handleToastSuccess, handleToastError} from "../../../store/modalState"
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -32,16 +32,12 @@ export default function ManageDepartment({name, id}) {
   const navigate = useNavigate()
 
   const [open, setOpen] = useState(false);
-  const[success, setSuccess] = useState()
   const[description, setDescription] = useState()
   const [data, setData] = useState({
     name:'',
     description:description
   })
 
-  const showUpdateToast = () => toast.success("Updated Successfully");
-  const showDeleteToast = () => toast.success("Deleted Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   useEffect(() => {
     setData((prevData) => ({ ...prevData, description }));
@@ -72,10 +68,10 @@ export default function ManageDepartment({name, id}) {
       if(response.status === 201){
         handleClose()
         handleDepCount()
-        showUpdateToast()
+        dispatch(handleToastSuccess("Updated Successfully"))
       }
     } catch (err) {
-      showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   }
 
@@ -83,12 +79,11 @@ export default function ManageDepartment({name, id}) {
     try {
       const response = await axios.delete(`http://localhost:5000/remove_department/${id}`);
       if(response.status===200){
-        setSuccess("Deleted successfully")
         handleDepCount()
-        showDeleteToast()
+        dispatch(handleToastSuccess("Deleted Successfully"))
       }
     } catch (error) {
-        showErrorToast()
+        dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
@@ -111,7 +106,6 @@ export default function ManageDepartment({name, id}) {
 
   return (
     <React.Fragment>
-      <Toaster/>
       <Button
        handleClickOpen={handleClickOpen}
        handleDelete={ handleDelete}

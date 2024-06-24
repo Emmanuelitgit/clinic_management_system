@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast} from 'react-toastify';
 
 
 export const modalSlice = createSlice({
@@ -19,8 +20,20 @@ export const modalSlice = createSlice({
         handleSidebarToggle:(state)=>{
             state.sidebar_toggle = !state.sidebar_toggle
             console.log(state.sidebar_toggle)
-        }
+        },
+        handleToastSuccess:(state, action)=>{
+            toast.success(action.payload)
+        },
+        handleToastError:(state,action)=>{
+            toast.error(action.payload)
+        },
     }
 })
 
-export const {handleResultModal, handleLabReport, handleSidebarToggle} = modalSlice.actions;
+export const {
+              handleResultModal, 
+              handleLabReport, 
+              handleSidebarToggle,
+              handleToastSuccess,
+              handleToastError
+            } = modalSlice.actions;

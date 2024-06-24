@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -8,13 +7,12 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Add } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { useState,useEffect } from 'react';
 import axios from "axios";
 import { depCountActions } from '../../../store/depCount';
 import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css';
-import { toast, Toaster } from 'react-hot-toast';
+import {handleToastSuccess, handleToastError} from "../../../store/modalState"
 
 
 
@@ -31,16 +29,11 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function AddDepartment() {
 
   const [open, setOpen] = useState(false);
-  const[success, setSuccess] = useState()
   const[description, setDescription] = useState()
   const [data, setData] = useState({
     name:"",
     description:description
   })
-
-  const showSuccessToast = () => toast.success("Created Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -74,13 +67,12 @@ export default function AddDepartment() {
     try {
       const response = await axios.post(`http://localhost:5000/add_department`, data);
       if(response.status === 201){
-        setSuccess("Success")
         handleClose()
         handleDepCount()
-        showSuccessToast()
+        dispatch(handleToastSuccess("Created Successfully"))
       }
     } catch (err) {
-      showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   }
   

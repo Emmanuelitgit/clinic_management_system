@@ -1,22 +1,20 @@
 import React from 'react';
 import "./style.css"
-import { Mail, Lock, Visibility, Key, Password, VisibilityOff } from '@mui/icons-material';
-import { Dropdown } from 'semantic-ui-react'
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import 'semantic-ui-css/semantic.min.css';
-import { friendOptions } from '../../utils/Data';
 import axios from "axios";
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { login } from '../../store/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { depCountActions } from '../../store/depCount';
-import { toast, Toaster } from 'react-hot-toast';
+import { handleToastError, handleToastSuccess } from '../../store/modalState';
 
 
 
 const Login = () => {
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const [credential, setCrdential] = useState({
     email:'',
@@ -25,13 +23,7 @@ const Login = () => {
   });
 
   const [err, setErr] = useState();
-  const [successMessage, setSuccessMessage] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false);
-
-  
-  const showSuccessToast = () => toast.success("Successfully logged in");
-  const showErrorToast = () => toast.error('Error! cannot find account');
 
 
   const handleChange = (e, data) => {
@@ -44,6 +36,7 @@ const Login = () => {
   };
   
   const handleLogin = async () => {
+    
     try {
       const response = await axios.post("http://localhost:5000/login", credential);
   
@@ -53,14 +46,13 @@ const Login = () => {
         const { token } = response.data;
         const { staff_id } = response.data.data[0];
 
-        setSuccessMessage(true);
   
         localStorage.setItem("role", role)
         localStorage.setItem("user", name);
         localStorage.setItem("token", token);
         localStorage.setItem("userId", staff_id)
   
-        showSuccessToast();
+        dispatch(handleToastSuccess("Login Success"))
   
         // Delay navigation by 2 seconds
         setTimeout(() => {
@@ -83,8 +75,7 @@ const Login = () => {
       }
     } catch (error) {
       if (error.response?.status === 404) {
-        console.log("user not found");
-        showErrorToast()
+        dispatch(handleToastError("Account not found"))
       }
     }
   };
@@ -95,7 +86,6 @@ const handleShowPassword = () => {
 
   return (
     <div className='login-container'>
-      <Toaster/>
       <div className="login-input-container">
       <div className="header-container">
         <span className='welcome-text'>Welcome, Zangu-Vuga Community Clinic</span>

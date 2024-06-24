@@ -12,7 +12,8 @@ import { Link, useNavigate } from "react-router-dom"
 import axios from "axios";
 import { depCountActions } from '../../store/depCount';
 import { useLocation } from 'react-router-dom';
-import { toast, Toaster } from 'react-hot-toast';
+import { toast} from 'react-toastify';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -42,9 +43,6 @@ export default function ManagePatient({name,id,patient,age,sex,email,blood_group
     blood_group:blood_group,
   })
 
-  const showUpdateToast = () => toast.success("Updated Successfully");
-  const showDeleteToast = () => toast.success("Deleted Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   const dispatch = useDispatch()
 
@@ -71,10 +69,10 @@ export default function ManagePatient({name,id,patient,age,sex,email,blood_group
       if(response.status === 201){
         handleDepCount()
         handleClose()
-        showUpdateToast()
+        dispatch(handleToastSuccess("Updated Successfully"))
       }
     } catch (error) {
-      showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
@@ -83,10 +81,10 @@ export default function ManagePatient({name,id,patient,age,sex,email,blood_group
       const response = await axios.delete(`http://localhost:5000/remove_patient/${id}`);
       if(response.status === 200){
         handleDepCount()
-        showDeleteToast()
+        dispatch(handleToastSuccess("Successfully Deleted"))
       }
     } catch (error) {
-        showErrorToast()
+        dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
@@ -109,7 +107,6 @@ export default function ManagePatient({name,id,patient,age,sex,email,blood_group
 
   return (
     <React.Fragment>
-      <Toaster/>
       <Button
        handleClickOpen={handleClickOpen}
        handleDelete={ handleDelete}

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -8,13 +7,13 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Add } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { useLocation } from "react-router-dom";
 import { depCountActions } from '../../../store/depCount';
 import axios from "axios";
 import {exhaustiveUniqueRandom} from 'unique-random';
-import { toast, Toaster } from 'react-hot-toast';
-
+import 'react-toastify/dist/ReactToastify.css';
+import { handleToastError, handleToastSuccess } from '../../../store/modalState';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -27,8 +26,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function AddStaff({name}) {
-
-  const random = exhaustiveUniqueRandom(1, 10);
   
   const location = useLocation();
   const role = location.pathname.split("/")[2].replace("-list", "");
@@ -43,8 +40,6 @@ export default function AddStaff({name}) {
     department:"",
   })
 
-  const showAddToast = () => toast.success("Created Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -76,10 +71,10 @@ export default function AddStaff({name}) {
       if(response.status === 201){
         handleDepCount()
         handleClose()
-        showAddToast()
+        dispatch(handleToastSuccess("Successfully Added"))
       }
     } catch (error) {
-      showErrorToast()
+      dispatch(handleToastError("Error! cannot perform operation"))
     }
   };
 

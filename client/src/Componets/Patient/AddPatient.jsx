@@ -10,9 +10,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Add } from '@mui/icons-material';
 import { depCountActions } from '../../store/depCount';
 import axios from "axios";
-import { useDispatch, useSelector } from 'react-redux';
-import { toast, Toaster } from 'react-hot-toast';
-
+import { useDispatch} from 'react-redux';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -37,8 +36,6 @@ export default function AddPatient() {
     blood_group:'',
   })
 
-  const showAddToast = () => toast.success("Created Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -68,10 +65,10 @@ export default function AddPatient() {
       if(response.status === 201){
         handleDepCount()
         handleClose()
-        showAddToast()
+        dispatch(handleToastSuccess("Successfully Added"))
       }
     } catch (error) {
-      showErrorToast()
+      dispatch(handleToastError("Error! cannot perform operation"))
     }
   };
 

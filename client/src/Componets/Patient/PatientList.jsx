@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const PatientList = () => {
 
-  const role = localStorage.getItem("role");
+  const role = localStorage.getItem("role").toLowerCase();
   const [data, setData] = useState({ columns: [], rows: [] });
   const dep = useSelector(state => state.count?.depValue) || [2];
 
@@ -33,9 +33,9 @@ const PatientList = () => {
                   { label: 'BIRTH DATE', field: 'birth', sort: 'asc' },
                   { label: 'PHONE', field: 'phone', sort: 'asc' },
               ];
-              if (role === "Doctor") {
+              if (role === "doctor") {
                   columns.push({ label: 'ACTIONS', field: 'actions', sort: 'disabled' });
-              }else if (role === "Nurse") {
+              }else if (role === "nurse") {
                 columns.push({ label: 'ACTIONS', field: 'actions', sort: 'disabled' });
             }
 
@@ -76,12 +76,12 @@ const PatientList = () => {
 
   return (
       <div className=''>
-          {role === "Doctor"  &&
+          {role === "doctor"  &&
               <div className='add-btn-container'>
                   <AddPatient/>
               </div>
           }
-           {role === "Nurse"  &&
+           {role === "nurse"  &&
               <div className='add-btn-container'>
                   <AddPatient/>
               </div>
