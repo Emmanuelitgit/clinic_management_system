@@ -48,8 +48,14 @@ html{
     width: 30%;
     height: 30%;
 }
+.user-role-name-container{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
 .user-name{
     color: black;
+    width: 100%;
 }
 .user-info-container-nav{
     display: flex;
