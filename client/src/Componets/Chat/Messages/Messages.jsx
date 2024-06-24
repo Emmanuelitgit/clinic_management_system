@@ -1,14 +1,11 @@
-import React from 'react'
-import "./Messages.css"
+import React from 'react';
+import "./Messages.css";
 import { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
-import ScrollToBottom from 'react-scroll-to-bottom';
-import ReactTimeAgo from 'react-time-ago'
+import { format, parseISO, isValid } from 'date-fns';
 
-
-const Messages = ({messages, date}) => {
+const Messages = ({ messages }) => {
   
-  const userId = localStorage.getItem("userId")
+  const userId = localStorage.getItem("userId");
   const messagesEndRef = useRef(null);
   
   const scrollToBottom = () => {
@@ -19,23 +16,39 @@ const Messages = ({messages, date}) => {
     scrollToBottom();
   }, [messages]);
 
+  const formatTime = (timeString) => {
+    try {
+      const date = new Date(timeString);
+      if (isValid(date)) {
+        return format(date, 'hh:mm a');
+      } else {
+        return 'Invalid date';
+      }
+    } catch (error) {
+      return 'Invalid date';
+    }
+  };
+
   return (
-    
     <div className='messages-container'>
-    {messages.map((msg, index) => (
-        <div 
+      {messages.map((msg, index) => {
+        const formattedTime = formatTime(msg.created_at);
+        return (
+          <div 
             key={index} 
             className={`message ${msg.sender === userId ? 'message-sender' : 'message-receiver'}`}
-        >
-            <p>{msg.message}</p>
-            <p>{new Date(msg.created_at).toLocaleTimeString()}</p>
-        </div>
-    ))}
-    <div ref={messagesEndRef} />
-</div>
-
-  )
+          >
+            <p>
+              {msg.message} 
+              <p className='time-value'>{formattedTime}</p>
+            </p>
+           
+          </div>
+        );
+      })}
+      <div ref={messagesEndRef} />
+    </div>
+  );
 }
 
-
-export default Messages
+export default Messages;
