@@ -51,11 +51,14 @@ const Login = () => {
         const { role } = response.data.data[0]; 
         const { name } = response.data.data[0];
         const { token } = response.data;
+        const { staff_id } = response.data.data[0];
+
         setSuccessMessage(true);
   
         localStorage.setItem("role", role)
         localStorage.setItem("user", name);
         localStorage.setItem("token", token);
+        localStorage.setItem("userId", staff_id)
   
         showSuccessToast();
   

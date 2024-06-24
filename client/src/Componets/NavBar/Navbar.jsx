@@ -11,6 +11,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Panelbar from '../Panelbar/Panelbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleSidebarToggle } from '../../store/modalState';
+import { Link, useLocation } from 'react-router-dom';
 
 
 
@@ -22,6 +23,8 @@ const Navbar = () => {
    const roleValue = localStorage.getItem('role')
    const role = roleValue?.charAt(0).toUpperCase() + roleValue.slice(1);
    const user = localStorage.getItem('user')
+   const location = useLocation()
+   const route = location.pathname.split("/")[1]
   //  const [visible, setVisible] = useState(false)
 
    const dispatch = useDispatch()
@@ -48,9 +51,11 @@ const Navbar = () => {
          <h4 className='panel-type-text'>{role} Panel</h4>
       </div>
       <div className='nav-profile-container'>
+          <Link to={`/${route}/chat`}>
           <Badge badgeContent={4} color="primary" className='icons'>
               <MailIcon color="action" className='profile-icon' style={{color:'white'}} />
          </Badge>
+          </Link>
          <Badge badgeContent={4} color="primary" className='icons'>
               <NotificationsIcon color="action" className='profile-icon' style={{color:'white'}} />
          </Badge>

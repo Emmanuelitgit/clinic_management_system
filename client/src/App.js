@@ -63,6 +63,7 @@ import ViewDepartment from './Pages/Admin/Department/ViewDepartment';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import '@coreui/coreui/dist/css/coreui.min.css'
+import Chat from "./Componets/Chat/ChatContainer/Chat"
 
 
 const Admin =()=>{
@@ -158,6 +159,7 @@ const router = createBrowserRouter([
       { path: "/admin/view-department/:id", element: <ViewDepartment /> },
       { path: "/admin/profile", element: <Profile /> },
       { path: "/admin/settings", element: <Settings /> },
+      { path: "/admin/chat", element: <Chat /> },
     ]
   },
 
@@ -188,6 +190,7 @@ const router = createBrowserRouter([
       { path: "/doctor/view-blood-bank/:id", element: <ViewBloodBank /> },
       { path: "/doctor/view-request/:id", element: <ViewRequest /> },
       { path: "/doctor/profile", element: <Profile /> },
+      { path: "/doctor/chat", element: <Chat /> },
     ]
   },
 

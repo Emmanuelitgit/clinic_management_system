@@ -6,10 +6,8 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { AuthContexProvider } from './Context/authContext';
 import { Provider } from 'react-redux';
 import store from './store'
-import Login from './Pages/Login/Login';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
