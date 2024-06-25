@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { depCountActions } from '../../store/depCount';
 import axios from "axios";
 import { getBloodGroup } from '../../store/data';
-import { toast, Toaster } from 'react-hot-toast';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -47,10 +47,6 @@ export default function ManageDonor({name, id}) {
     blood_group:'', 
     last_donation_date:''
   });
-
-  const showUpdateToast = () => toast.success("Updated Successfully");
-  const showDeleteToast = () => toast.success("Deleted Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   const bloodGroup = useSelector((state)=>state.data?.bloodBank)||[]
 
@@ -93,10 +89,10 @@ export default function ManageDonor({name, id}) {
       if(response.status === 201){
         handleDepCount()
         handleClose()
-        showUpdateToast()
+        dispatch(handleToastSuccess("Updated Successfully"))
       }
     } catch (error) {
-        showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
@@ -105,16 +101,15 @@ export default function ManageDonor({name, id}) {
       const response = await axios.delete(`http://localhost:5000/remove_blood_donor/${id}`);
       if(response.status === 200){
         handleDepCount()
-        showDeleteToast()
+        dispatch(handleToastSuccess("Deleted Successfully"))
       }
     } catch (error) {
-        showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
   return (
     <React.Fragment>
-      <Toaster/>
       <Button
        handleClickOpen={handleClickOpen}
        handleDelete={ handleDelete}

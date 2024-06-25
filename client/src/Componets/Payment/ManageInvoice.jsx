@@ -19,6 +19,7 @@ import { getStaff, getPatients } from '../../store/data';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import { useLocation } from 'react-router-dom';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -102,9 +103,10 @@ export default function ManageInvoice({name, id, patient_id}) {
       if(response.status === 201){
         handleDepCount()
         handleClose()
+        dispatch(handleToastSuccess("Updated Successfully"))
       }
     } catch (error) {
-        console.log(error)
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
@@ -113,9 +115,10 @@ export default function ManageInvoice({name, id, patient_id}) {
       const response = await axios.delete(`http://localhost:5000/remove_invoice/${id}`);
       if(response.status === 200){
         handleDepCount()
+        dispatch(handleToastSuccess("Deleted Successfully"))
       }
     } catch (error) {
-        console.log(error)
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 

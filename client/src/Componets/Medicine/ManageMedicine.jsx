@@ -15,7 +15,7 @@ import { depCountActions } from '../../store/depCount';
 import axios from "axios";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
-import { toast, Toaster } from 'react-hot-toast';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -44,10 +44,6 @@ export default function ManageMedicine({name, id}) {
     manufacturer:'',
     status:''
   });
-
-  const showUpdateToast = () => toast.success("Updated Successfully");
-  const showDeleteToast = () => toast.success("Deleted Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   useEffect(() => {
     setData((prevData) => ({ ...prevData, description }));
@@ -92,10 +88,10 @@ export default function ManageMedicine({name, id}) {
       if(response.status === 201){
         handleDepCount()
         handleClose()
-        showUpdateToast()
+        dispatch(handleToastSuccess("Updated Successfully"))
       }
     } catch (error) {
-        showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
@@ -104,16 +100,15 @@ export default function ManageMedicine({name, id}) {
       const response = await axios.delete(`http://localhost:5000/remove_medicine/${id}`);
       if(response.status === 200){
         handleDepCount()
-        showDeleteToast()
+        dispatch(handleToastSuccess("Deleted Successfully"))
       }
     } catch (error) {
-        showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
   return (
     <React.Fragment>
-      <Toaster/>
       <Button
        handleClickOpen={handleClickOpen}
        handleDelete={ handleDelete}

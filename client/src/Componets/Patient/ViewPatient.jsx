@@ -41,9 +41,11 @@ const ViewPatient = () => {
     <div className='view-patient-container '>
          <div className='view-patient-sub-container'>
             <div className="view-staff-profile-items">
-                <span className="view-staff-profile-item ">{name}</span>
                 <img src={doctor} alt=""  className='view-staff-profile'/>
-                <span className="view-staff-profile-item profile-item-role">Patient</span>
+             <div style={{display:'flex',flexDirection:'column'}}>
+             <span className="view-patient-profile-item ">{name}</span>
+             <span className="view-patient-profile-item profile-item-role">(Patient)</span>
+             </div>
             </div>
          </div>
          <div className="view-patient-horozontally-line"></div>

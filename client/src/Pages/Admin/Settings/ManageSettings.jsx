@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from 'react';
 import { depCountActions } from '../../../store/depCount';
 import axios from "axios";
+import {handleToastSuccess, handleToastError} from "../../../store/modalState"
 
 
 
@@ -71,9 +72,10 @@ export default function ManageSettings({name,email,phone,language,currency,addre
       if(response.status === 201){
         handleDepCount()
         handleClose()
+        dispatch(handleToastSuccess("Updated Successfully"))
       }
     } catch (error) {
-        console.log(error)
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 

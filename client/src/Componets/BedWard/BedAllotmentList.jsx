@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const BedAllotmentList = () => {
 
-  const role = localStorage.getItem("role");
+  const role = localStorage.getItem("role").toLowerCase();
   const [data, setData] = useState({ columns: [], rows: [] });
   const dep = useSelector(state => state.count?.depValue) || [2];
 
@@ -34,9 +34,9 @@ const BedAllotmentList = () => {
                 { label: 'Allotment Date', field: 'allotment', sort: 'asc' },
                 { label: 'Discharge Date', field: 'discharge', sort: 'asc' },
               ];
-              if (role === "Doctor") {
+              if (role === "doctor") {
                   columns.push({ label: 'Actions', field: 'actions', sort: 'disabled' });
-              }else if(role === "Nurse"){
+              }else if(role === "nurse"){
                  columns.push({ label: 'Actions', field: 'actions', sort: 'disabled' });
               }
 
@@ -70,12 +70,12 @@ const BedAllotmentList = () => {
 
   return (
       <div className='main-border'>
-          {role === "Doctor"  &&
+          {role === "doctor"  &&
               <div className='add-btn-container'>
                   <AddAllotment/>
               </div>
           }
-          {role === "Nurse"  &&
+          {role === "nurse"  &&
             <div className='add-btn-container'>
                <AddAllotment/>
             </div>

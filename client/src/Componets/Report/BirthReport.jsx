@@ -17,7 +17,7 @@ const location = useLocation()
 const route = location.pathname.split("/")[2];
 const type = route?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
-  const role = localStorage.getItem("role");
+  const role = localStorage.getItem("role").toLowerCase();
   const [data, setData] = useState({ columns: [], rows: [] });
   const dep = useSelector(state => state.count?.depValue) || [2];
 
@@ -44,9 +44,9 @@ const type = route?.split('-').map(word => word.charAt(0).toUpperCase() + word.s
                 { label: 'Patient', field: 'patient', sort: 'asc' },
                 { label: 'Doctor', field: 'doctor', sort: 'asc' },
               ];
-              if (role === "Doctor") {
+              if (role === "doctor") {
                   columns.push({ label: 'Actions', field: 'actions', sort: 'disabled' });
-              }else if (role === "Nurse") {
+              }else if (role === "nurse") {
                 columns.push({ label: 'Actions', field: 'actions', sort: 'disabled' });
             }
 
@@ -79,14 +79,14 @@ const type = route?.split('-').map(word => word.charAt(0).toUpperCase() + word.s
 
   return (
       <div className='main-border'>
-          {role === "Doctor"  &&
+          {role === "doctor"  &&
               <div className='add-btn-container'>
                   <AddReport
                   name={"Birth"}
                   />
               </div>
           }
-           {role === "Nurse"  &&
+           {role === "nurse"  &&
               <div className='add-btn-container'>
                    <AddReport
                    name={"Birth"}

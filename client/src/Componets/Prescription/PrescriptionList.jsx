@@ -20,37 +20,20 @@ const PrescriptionList = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation()
+
     const route = location.pathname.split("/")[1]
+    const role = localStorage.getItem("role").toLowerCase();
+    const [data, setData] = useState({ columns: [], rows: [] });
+    const dep = useSelector(state => state.count?.depValue) || [2];
 
     const handleStatusSelect = () => {
     }
-
-    const handleClickPay = () => {
-        const confirmed = window.confirm("This will change the payment status to paid");
-        if (confirmed) {
-            // Do something if the user confirms
-        } else {
-            // Do something if the user cancels
-        }
-    }
-
-    const handleClickStatus = () => {
-      const confirmed = window.confirm("This will change the medication status to item collected");
-      if (confirmed) {
-          // Do something if the user confirms
-      } else {
-          // Do something if the user cancels
-      }
-  }
 
     const handleView = (id) => {
         navigate(`/${route}/view-prescription/${id}`)
     }
     
-  const role = localStorage.getItem("role");
-  const [data, setData] = useState({ columns: [], rows: [] });
 
-  const dep = useSelector(state => state.count?.depValue) || [2];
 
   useEffect(() => {
       const fetchData = async () => {
@@ -68,18 +51,18 @@ const PrescriptionList = () => {
                 { label: 'Medication', field: 'medication', sort: 'asc' },
                 { label: 'Date', field: 'date', sort: 'asc' },
               ];
-              if (role === "Doctor") {
+              if (role === "doctor") {
                   columns.push({ label: 'Actions', field: 'actions', sort: 'disabled' });
               }
-              if (role === "Pharmacist") {
+              if (role === "pharmacist") {
                 columns.push({ label: 'Payment', field: 'payment', sort: 'disabled' });
               }
 
-              if (role === "Pharmacist") {
+              if (role === "pharmacist") {
                 columns.push({ label: 'Status', field: 'status', sort: 'disabled' });
               }
 
-              if (role === "Pharmacist") {
+              if (role === "pharmacist") {
                 columns.push({ label: 'View', field: 'view', sort: 'disabled' });
               }
            
@@ -109,7 +92,6 @@ const PrescriptionList = () => {
                             value={"Unpaid"}
                             id={item.prescription_id}
                             backgroundColor={"red"}
-                            handleClick={handleClickPay}
                             width={"100%"}
                             padding={"9%"}
                            />
@@ -151,7 +133,6 @@ const PrescriptionList = () => {
                           value={"Waiting Payment"}
                           id={item.prescription_id}
                           backgroundColor={"#3279a8"}
-                          handleClick={handleClickStatus}
                           width={'90%'}
                           padding={"7%"}
                         />
@@ -180,7 +161,7 @@ const PrescriptionList = () => {
 
   return (
       <div className='main-border'>
-          {role === "Doctor"  &&
+          {role === "doctor"  &&
               <div className='add-btn-container'>
                   <AddPrescription/>
               </div>

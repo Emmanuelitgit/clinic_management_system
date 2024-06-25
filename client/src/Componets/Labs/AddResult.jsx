@@ -16,7 +16,7 @@ import axios from "axios";
 import { getStaff, getPatients } from '../../store/data';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
-import { toast, Toaster } from 'react-hot-toast';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -44,8 +44,6 @@ export default function AddResult() {
     test_report: report,
   });
 
-  const showAddToast = () => toast.success("Created Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   useEffect(() => {
     setData((prev) => ({
@@ -87,14 +85,13 @@ export default function AddResult() {
       if (response.status === 201) {
         handleDepCount();
         handleOpen();
-        showAddToast();
+        dispatch(handleToastSuccess("Created Successfully"))
       } else {
-        showErrorToast();
+        dispatch(handleToastError('Error! cannot perform operation'))
       }
       console.log(response);
     } catch (error) {
-      showErrorToast();
-      console.error(error);
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
@@ -159,7 +156,6 @@ export default function AddResult() {
           </button>
         </DialogActions>
       </BootstrapDialog>
-      <Toaster />
     </React.Fragment>
   );
 }

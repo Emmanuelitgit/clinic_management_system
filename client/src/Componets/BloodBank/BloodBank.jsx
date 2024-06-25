@@ -15,7 +15,6 @@ const BloodBank = () => {
   const [data, setData] = useState({ columns: [], rows: [] });
   const dep = useSelector(state => state.count?.depValue) || [2];
 
-
   useEffect(() => {
       const fetchData = async () => {
           try {

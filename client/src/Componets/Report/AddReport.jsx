@@ -16,7 +16,7 @@ import { useLocation } from 'react-router-dom';
 import { getStaff, getPatients } from '../../store/data';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
-import { toast, Toaster } from 'react-hot-toast';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -45,9 +45,6 @@ export default function AddReport({name}) {
     doctor_id:null, 
     report_type:type
   });
-
-  const showAddToast = () => toast.success("Created Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   const doctors = useSelector((state)=>state.data?.staff) || []
   const patients = useSelector((state)=>state.data?.patients) || []
@@ -91,10 +88,10 @@ export default function AddReport({name}) {
       if(response.status === 201){
         handleDepCount()
         handleClose()
-        showAddToast()
+        dispatch(handleToastSuccess("Created Successfully"))
       }
     } catch (error) {
-        showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 

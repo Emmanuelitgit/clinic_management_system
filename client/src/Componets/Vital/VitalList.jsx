@@ -68,7 +68,7 @@ const VitalList = () => {
   return (
       <div className='main-border'>
 
-           {role === "Nurse"  &&
+           {role === "nurse"  &&
               <div className='add-btn-container'>
                   <AddVital/>
               </div>

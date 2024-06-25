@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const BedList = ({ admin }) => {
 
-  const role = localStorage.getItem("role");
+  const role = localStorage.getItem("role").toLowerCase();
   const [data, setData] = useState({ columns: [], rows: [] });
   const dep = useSelector(state => state.count?.depValue) || [2];
 
@@ -31,7 +31,7 @@ const BedList = ({ admin }) => {
                 { label: 'Bed Status', field: 'bed_status', sort: 'asc' },
                 { label: 'Bed Location', field: 'bed_location', sort: 'asc' },
               ];
-              if (role === "Nurse") {
+              if (role === "nurse") {
                   columns.push({ label: 'Actions', field: 'actions', sort: 'disabled' });
               }
 
@@ -63,7 +63,7 @@ const BedList = ({ admin }) => {
 
   return (
       <div className='main-border'>
-          {role === "Nurse"  &&
+          {role === "nurse"  &&
               <div className='add-btn-container'>
                   <AddBed/>
               </div>

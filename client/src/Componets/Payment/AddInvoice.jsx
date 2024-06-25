@@ -16,6 +16,7 @@ import { getStaff, getPatients } from '../../store/data';
 import { v4 as uuidv4 } from 'uuid'
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 
@@ -94,9 +95,10 @@ export default function AddInvoice() {
       if(response.status === 201){
         handleDepCount()
         handleClose()
+        dispatch(handleToastSuccess("Created Successfully"))
       }
     } catch (error) {
-        console.log(error)
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 

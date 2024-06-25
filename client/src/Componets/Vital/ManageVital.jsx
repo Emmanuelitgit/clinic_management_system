@@ -17,7 +17,7 @@ import { depCountActions } from '../../store/depCount';
 import axios from "axios";
 import { getStaff, getPatients } from '../../store/data';
 import { useLocation } from 'react-router-dom';
-import { toast, Toaster } from 'react-hot-toast';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 
@@ -46,10 +46,6 @@ export default function ManageVital({name, id, patient_id}) {
     age:'',
     date:''
   });
-
-  const showUpdateToast = () => toast.success("Updated Successfully");
-  const showDeleteToast = () => toast.success("Deleted Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   const dispatch = useDispatch()
   const nurses = useSelector((state)=>state.data?.staff) || []
@@ -102,10 +98,10 @@ export default function ManageVital({name, id, patient_id}) {
       if(response.status === 201){
         handleDepCount()
         handleClose()
-        showUpdateToast()
+        dispatch(handleToastSuccess("Updated Successfully"))
       }
     } catch (error) {
-        showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
@@ -114,17 +110,16 @@ export default function ManageVital({name, id, patient_id}) {
       const response = await axios.delete(`http://localhost:5000/remove_vital/${id}`);
       if(response.status === 200){
         handleDepCount()
-        showDeleteToast()
+        dispatch(handleToastSuccess("Deleted Successfully"))
       }
     } catch (error) {
-        showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
 
   return (
     <React.Fragment>
-      <Toaster/>
       <Button
        handleClickOpen={handleClickOpen}
        handleDelete={ handleDelete}

@@ -15,7 +15,7 @@ import { depCountActions } from '../../store/depCount';
 import axios from "axios";
 import { getBeds, getPatients } from '../../store/data';
 import { useLocation } from 'react-router-dom';
-import { toast, Toaster } from 'react-hot-toast';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -41,10 +41,6 @@ export default function ManageAllotment({name, id, patient_id}) {
     allotment_date:'',
     discharge_date:''
   });
-
-  const showUpdateToast = () => toast.success("Updated Successfully");
-  const showDeleteToast = () => toast.success("Deleted Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   const beds = useSelector((state)=>state.data?.beds) || []
   const patients = useSelector((state)=>state.data?.patients) || []
@@ -98,10 +94,10 @@ export default function ManageAllotment({name, id, patient_id}) {
       if(response.status === 201){
         handleDepCount()
         handleClose()
-        showUpdateToast()
+        dispatch(handleToastSuccess("Updated Successfully"))
       }
     } catch (error) {
-        showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
@@ -110,17 +106,16 @@ export default function ManageAllotment({name, id, patient_id}) {
       const response = await axios.delete(`http://localhost:5000/remove_bed_allotment/${id}`);
       if(response.status === 200){
         handleDepCount()
-        showDeleteToast()
+        dispatch(handleToastSuccess("Deleted Successfully"))
       }
       console.log(response)
     } catch (error) {
-        showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
   return (
     <React.Fragment>
-      <Toaster/>
       <Button
        handleClickOpen={handleClickOpen}
        handleDelete={ handleDelete}

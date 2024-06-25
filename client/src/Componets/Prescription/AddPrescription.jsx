@@ -15,7 +15,7 @@ import axios from "axios";
 import { getStaff, getPatients } from '../../store/data';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
-import { toast, Toaster } from 'react-hot-toast';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -38,9 +38,6 @@ export default function AddPrescription() {
     description:description,
     date:''
   });
-
-  const showAddToast = () => toast.success("Created Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -84,10 +81,10 @@ export default function AddPrescription() {
       if(response.status === 201){
         handleDepCount()
         handleClose()
-        showAddToast()
+        dispatch(handleToastSuccess("Created Successfully"))
       }
     } catch (error) {
-        showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 

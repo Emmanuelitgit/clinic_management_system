@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { depCountActions } from '../../store/depCount';
 import axios from "axios";
 import { getStaff, getPatients } from '../../store/data';
-import { toast, Toaster } from 'react-hot-toast';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -37,9 +37,6 @@ export default function AddVital() {
     age:'',
     date:''
   });
-
-  const showAddToast = () => toast.success("Created Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -79,10 +76,10 @@ export default function AddVital() {
       if(response.status === 201){
         handleDepCount()
         handleClose()
-        showAddToast()
+        dispatch(handleToastSuccess("Created Successfully"))
       }
     } catch (error) {
-        showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
@@ -93,8 +90,7 @@ export default function AddVital() {
           onClick={handleClickOpen}
           className='add-btn'
       >
-        <Add/>
-        Add Vital
+        <Add style={{fontSize:'40px'}}/>
       </button>}
       <BootstrapDialog
         aria-labelledby="customized-dialog-title"

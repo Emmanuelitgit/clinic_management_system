@@ -291,6 +291,11 @@ html{
   height: 220px;
   border-radius: 10px;
 }
+.view-patient-profile-item{
+  color: white;
+  margin-top: 0.5%;
+  font-size: 115%;
+}
 .view-patient-horozontally-line{
   width: 100%;
   background-color: var(--black);

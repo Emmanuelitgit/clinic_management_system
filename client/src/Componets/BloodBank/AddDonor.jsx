@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { depCountActions } from '../../store/depCount';
 import axios from "axios";
 import { getBloodGroup } from '../../store/data';
-import { toast, Toaster } from 'react-hot-toast';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -40,9 +40,6 @@ export default function AddDonor() {
     blood_group:'', 
     last_donation_date:''
   });
-
-  const showAddToast = () => toast.success("Created Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   const bloodGroup = useSelector((state)=>state.data?.bloodBank)||[]
   const dep = useSelector(state => state.count?.depValue) || [2];
@@ -77,10 +74,10 @@ export default function AddDonor() {
       if(response.status === 201){
         handleDepCount()
         handleClose()
-        showAddToast()
+        dispatch(handleToastSuccess("Created Successfully"))
       }
     } catch (error) {
-        showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 

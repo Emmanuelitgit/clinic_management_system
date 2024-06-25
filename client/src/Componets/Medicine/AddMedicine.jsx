@@ -14,7 +14,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
-import { toast, Toaster } from 'react-hot-toast';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -41,9 +41,6 @@ export default function AddMedicine() {
     manufacturer:'',
     status:''
   });
-
-  const showAddToast = () => toast.success("Created Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   const dep = useSelector(state => state.count?.depValue) || [2];
 
@@ -93,10 +90,10 @@ export default function AddMedicine() {
       if(response.status === 201){
         handleDepCount()
         handleClose()
-        showAddToast()
+        dispatch(handleToastSuccess("Created Successfully"))
       }
     } catch (error) {
-        showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
