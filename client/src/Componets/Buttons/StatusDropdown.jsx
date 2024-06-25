@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { depCountActions } from '../../store/depCount';
 import { ArrowDropDown } from '@mui/icons-material';
-import { toast, Toaster } from 'react-hot-toast';
+import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -25,9 +25,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function StatusDropdown({ statusValue, name, id, option1, option2, width, padding, backgroundColor, url }) {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({ status: '' });
-
-  const showAddToast = () => toast.success("Status Updated Successfully");
-  const showErrorToast = () => toast.error('Error! cannot perform operation');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -54,17 +51,16 @@ export default function StatusDropdown({ statusValue, name, id, option1, option2
       if (response.status === 201) { 
         handleDepCount();
         handleClose();
-        showAddToast()
+        dispatch(handleToastSuccess("Updated Successfully"))
       }
     } catch (error) {
-      showErrorToast()
+      dispatch(handleToastError('Error! cannot perform operation'))
     }
   };
 
 
   return (
     <React.Fragment>
-      <Toaster/>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <button
           onClick={handleClickOpen}

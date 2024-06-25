@@ -26,10 +26,20 @@ const ResultList = () => {
       navigate(`/${route}/view-result/${id}`)
   }
 
+  let type;
+
+  if(role==="laboratorist"){
+    type = "lab_result_list/lab"
+  }else if(role === "doctor"){
+    type = "lab_result_list"
+  }else if(role === "radiographer"){
+    type = "lab_result_list/scan"
+  }
+
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await fetch('http://localhost:5000/lab_result_list');
+          const response = await fetch(`http://localhost:5000/${type}`);
           if (!response.ok) {
             throw new Error('Failed to fetch data');
           }
@@ -43,8 +53,8 @@ const ResultList = () => {
               { label: 'Laboratorist', field: 'laboratorist', sort: 'asc' },
               { label: 'Patient', field: 'patient', sort: 'asc' },
               { label: 'Test Name', field: 'test_name', sort: 'asc' },
-              { label: 'Type', field: 'test_type', sort: 'asc' },
-              ...(role === "laboratorist" ? [{ label: 'Actions', field: 'actions', sort: 'disabled' }] : []),
+              { label: 'Type', field: 'request_type', sort: 'asc' },
+              ...(role === "laboratorist" || role === "radiographer" ? [{ label: 'Actions', field: 'actions', sort: 'disabled' }] : []),
               ...(role === "doctor" ? [{ label: 'View', field: 'view', sort: 'disabled' }] : []),
             ],
          
@@ -54,7 +64,7 @@ const ResultList = () => {
               laboratorist: item.laboratorist_name,
               patient: item.patient_name,
               test_name: item.test_name,
-              test_type: item.test_name,
+              request_type: item.request_type,
               actions:(
                 <>
                 <ManageResult

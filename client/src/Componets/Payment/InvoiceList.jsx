@@ -20,7 +20,7 @@ const InvoiceList = () => {
     const handleStatusSelect = () => {
     }
 
-  const role = localStorage.getItem("role");
+  const role = localStorage.getItem("role").toLowerCase();
   const [data, setData] = useState({ columns: [], rows: [] });
 
   const dep = useSelector(state => state.count?.depValue) || [2];
@@ -46,7 +46,7 @@ const InvoiceList = () => {
 
                columns.push({ label: 'Status', field: 'status', sort: 'disabled' })
 
-              if (role === "Accountant") {
+              if (role === "accountant") {
                   columns.push({ label: 'Actions', field: 'actions', sort: 'disabled' });
               }
 
@@ -96,7 +96,7 @@ const InvoiceList = () => {
 
   return (
       <div className='main-border'>
-          {role === "Accountant"  &&
+          {role === "accountant"  &&
               <div className='add-btn-container'>
                   <AddInvoice/>
               </div>

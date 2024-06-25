@@ -19,13 +19,15 @@ const Navbar = () => {
 
   //  const user = useSelector((state)=>state.auth?.currentUser) || []
   //  const role = useSelector((state)=>state.auth?.role) || []
+  const [settings, setSettings] = useState('')
    const visible = useSelector((state)=>state.modal?.sidebar_toggle) || []
    const roleValue = localStorage.getItem('role')
    const role = roleValue?.charAt(0).toUpperCase() + roleValue.slice(1);
    const user = localStorage.getItem('user')
    const location = useLocation()
    const route = location.pathname.split("/")[1]
-  //  const [visible, setVisible] = useState(false)
+   const dep = useSelector(state => state.count?.depValue) || [2];
+
 
    const dispatch = useDispatch()
 
@@ -34,6 +36,23 @@ const Navbar = () => {
     dispatch(handleSidebarToggle())
    }
 
+   useEffect(()=>{
+    const getsettings = async()=>{
+      try {
+        const response = await fetch('http://localhost:5000/settings');
+        if(!response.ok){
+          console.log('faild to fetch data..')
+        }
+        const fetchedData = await response.json();
+        setSettings(fetchedData)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getsettings()
+  }, [dep])
+
+  // const app_name = settings?.map((item)=>item?.system_name)
   return (
     <div className='navbar-container'>
       <div className='menu-title-container'>
@@ -43,7 +62,7 @@ const Navbar = () => {
                className='menu-icon'
                />
            </span>
-            <span className='navbar-title'>CLINIC SERVICE MANAGEMENT SYSTEM 
+            <span className='navbar-title'>{settings[0]?.system_name}
             <span className='dash'>-</span> 
             </span> <span className='zangu'> ZANGU-VUGA</span>
       </div>

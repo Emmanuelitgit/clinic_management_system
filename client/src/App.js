@@ -42,8 +42,6 @@ import AccountantNavs from './Componets/Navs/AccountantNavs';
 import AccountantDashboard from './Pages/Accountant/AccountantDashboard';
 import RadiographerNavs from './Componets/Navs/RadiographerNavs';
 import RadiographerDashboard from './Pages/Radiographer/RadiographerDashboard';
-import ScanRequestList from './Componets/Scan/ScanRequestList';
-import ScanReport from "./Componets/Scan/ScanReport";
 import ViewStaff from './Pages/Admin/Add Staff/ViewStaff';
 import ViewPatient from './Componets/Patient/ViewPatient';
 import ViewResult from './Componets/Labs/ViewResult';
@@ -262,8 +260,9 @@ const router = createBrowserRouter([
           element: <Radiographer/>,
           children:[
             {path: "/radiographer/dashboard",element: <RadiographerDashboard/>},
-            {path: "/radiographer/request-list",element: <ScanRequestList/>},
-            {path: "/radiographer/scan-reports",element: <ScanReport/>},
+            {path: "/radiographer/request-list",element: <RequestList/>},
+            {path: "/radiographer/scan-reports",element: <ResultList/>},
+            { path: "/radiographer/view-result/:id", element: <ViewResult /> },
           ]
         },
 

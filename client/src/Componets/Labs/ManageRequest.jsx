@@ -38,8 +38,9 @@ export default function ManageRequest({name, id, patient_id}) {
   const [data, setData] = useState({
     patient_id:null,
     doctor_id:null,
-    test_type:'',
+    request_type:'',
     test_name:'',
+    method:'',
     date:''
   });
 
@@ -163,24 +164,38 @@ export default function ManageRequest({name, id, patient_id}) {
               ))}
             </select>
         </div>
-          <div className='input-container'>
-            <label htmlFor="">Test Type</label>
-            <input type="text"
-              className='input'
-              placeholder='eg Blood'
-              name='test_type'
-              onChange={handleChange}  
-            />
-          </div>
-          <div className='input-container'>
-            <label htmlFor="">Test Name</label>
-            <input type="text"
-              className='input'
-              placeholder='eg Hepatitis B'
-              name='test_name'
-              onChange={handleChange} 
-            />
-          </div>
+        <div className='input-container'>
+          <label htmlFor="">Request Type</label>
+            <select name="request_type" onChange={handleChange} value={data.doctor}  className='dropdown'>
+              <option value="">--Select request type--</option>
+              <option value="Lab">Lab</option>
+              <option value="Scan">Scan</option>
+            </select>
+        </div>
+        <div className='input-container'>
+          <label htmlFor="">Test Method</label>
+            <select name="method" onChange={handleChange} value={data.doctor}  className='dropdown'>
+              <option value="">--Select test method--</option>
+              <option value="Blood Draw">Blood Draw</option>
+              <option value="Urine Sample">Urine Sample</option>
+              <option value="Stool Sample">Stool Sample</option>
+              <option value="Saliva Swab">Saliva Swab</option>
+              <option value="Hair Sample">Hair Sample</option>
+            </select>
+        </div>
+        <div className='input-container'>
+          <label htmlFor="">Test/Scan Name</label>
+            <select name="test_name" onChange={handleChange} value={data.doctor}  className='dropdown'>
+              <option value="">--Select test name--</option>
+              <option value="Malaria">Malaria</option>
+              <option value="Hepatitis B">Hepatitis B</option>
+              <option value="Hepatitis A">Hepatitis A</option>
+              <option value="Liver Function Test (LFT)">Liver Function Test (LFT)</option>
+              <option value="Pregnancy Tes">Pregnancy Tes</option>
+              <option value="Ultrasound (US)">Ultrasound (US)</option>
+              <option value="X-Ray">X-Ray</option>
+            </select>
+        </div>
           <div className='input-container'>
             <label htmlFor="">Date</label>
             <input type="date"

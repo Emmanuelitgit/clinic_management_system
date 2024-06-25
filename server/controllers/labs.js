@@ -9,7 +9,40 @@ export const getRequests = (req, res) =>{
                  clinic_management_system.lab_request.request_id,
                  clinic_management_system.lab_request.date,
                  clinic_management_system.staff.name AS doctor_name,
-                 clinic_management_system.lab_request.test_type,
+                 clinic_management_system.lab_request.request_type,
+                 clinic_management_system.lab_request.method,
+                 clinic_management_system.lab_request.test_name,
+                 clinic_management_system.invoice.status AS payment_status,
+                 clinic_management_system.lab_request.status AS lab_status,
+                 clinic_management_system.lab_report.test_report
+                 FROM clinic_management_system.lab_request 
+                 JOIN clinic_management_system.patient 
+                 ON clinic_management_system.lab_request.patient_id=clinic_management_system.patient.patient_id
+                 JOIN clinic_management_system.staff 
+                 ON clinic_management_system.lab_request.doctor_id=clinic_management_system.staff.staff_id
+                 LEFT JOIN clinic_management_system.invoice
+                 ON clinic_management_system.lab_request.patient_id=clinic_management_system.invoice.patient_id
+                 LEFT JOIN clinic_management_system.lab_report
+                 ON clinic_management_system.lab_request.patient_id=clinic_management_system.lab_report.patient_id
+                 WHERE clinic_management_system.lab_request.request_type=?`;
+
+    db.query(query, [req.params.request_type], (err, data) => {
+        if (err) return res.status(500).json("Internal server error");
+
+        return res.status(200).json(data);
+    });
+}
+
+export const getAllRequestsForDoctors = (req, res) =>{
+    const query =
+                `SELECT  
+                 clinic_management_system.patient.name AS patient_name,
+                 clinic_management_system.patient.patient_id AS patient_id,
+                 clinic_management_system.lab_request.request_id,
+                 clinic_management_system.lab_request.date,
+                 clinic_management_system.staff.name AS doctor_name,
+                 clinic_management_system.lab_request.request_type,
+                 clinic_management_system.lab_request.method,
                  clinic_management_system.lab_request.test_name,
                  clinic_management_system.invoice.status AS payment_status,
                  clinic_management_system.lab_request.status AS lab_status,
@@ -24,7 +57,7 @@ export const getRequests = (req, res) =>{
                  LEFT JOIN clinic_management_system.lab_report
                  ON clinic_management_system.lab_request.patient_id=clinic_management_system.lab_report.patient_id`;
 
-    db.query(query, [req.query.test_type], (err, data) => {
+    db.query(query, (err, data) => {
         if (err) return res.status(500).json("Internal server error");
 
         return res.status(200).json(data);
@@ -39,7 +72,8 @@ export const getRequest = (req, res) => {
              clinic_management_system.lab_request.request_id,
              clinic_management_system.lab_request.date,
              clinic_management_system.staff.name AS doctor_name,
-             clinic_management_system.lab_request.test_type,
+             clinic_management_system.lab_request.request_type,
+             clinic_management_system.lab_request.method,
              clinic_management_system.lab_request.test_name,
              clinic_management_system.invoice.status AS payment_status,
              clinic_management_system.lab_request.status AS lab_status
@@ -54,7 +88,7 @@ export const getRequest = (req, res) => {
 
     db.query(query, [req.params.id], (err, data) => {
         if (err) return res.status(500).json("Internal server error");
-
+    
         return res.status(200).json(data);
     });
 }
@@ -65,11 +99,12 @@ export const addRequest = (req, res)=>{
     const values = [
         req.body.patient_id,
         req.body.doctor_id,
+        req.body.request_type,
         req.body.test_name,
-        req.body.test_type,
+        req.body.method,
         req.body.date,  
     ]
-    const query = "INSERT INTO lab_request(`patient_id`, `doctor_id`, `test_type`, `test_name`, `date`) VALUES(?)";
+    const query = "INSERT INTO lab_request(`patient_id`, `doctor_id`, `request_type`, `test_name`, `method`, `date`) VALUES(?)";
 
     db.query(query, [values], (err, data) => {
         if (err) return res.send(err)
@@ -82,12 +117,13 @@ export const updateRequest = (req, res)=>{
     const values = [ 
         req.body.patient_id,
         req.body.doctor_id,
+        req.body.request_type,
         req.body.test_name,
-        req.body.test_type,
+        req.body.method,
         req.body.date
     ]
     const updateId = req.params.id;
-    const query = "UPDATE lab_request SET patient_id =?, doctor_id =?, test_name =?, test_type =?, date =? WHERE request_id=?";
+    const query = "UPDATE lab_request SET patient_id =?, doctor_id =?,  request_type =?, test_name =?, method=?, date =? WHERE request_id=?";
 
     db.query(query, [...values, updateId], (err, data) => {
         if (err) return res.send(err)
@@ -131,7 +167,34 @@ export const getLabResultList = (req, res) =>{
                  clinic_management_system.lab_report.date,
                  clinic_management_system.staff.name AS laboratorist_name,
                  clinic_management_system.lab_request.test_name,
-                 clinic_management_system.lab_request.test_type,
+                 clinic_management_system.lab_request.request_type,
+                 clinic_management_system.lab_report.test_report,
+                 clinic_management_system.lab_report.patient_id
+                 FROM clinic_management_system.lab_report 
+                 JOIN clinic_management_system.patient 
+                 ON clinic_management_system.lab_report.patient_id=clinic_management_system.patient.patient_id
+                 JOIN clinic_management_system.staff 
+                 ON clinic_management_system.lab_report.laboratorist_id=clinic_management_system.staff.staff_id
+                 JOIN clinic_management_system.lab_request
+                 ON clinic_management_system.lab_request.patient_id = clinic_management_system.lab_report.patient_id
+                 WHERE clinic_management_system.lab_request.request_type=?`;
+
+    db.query(query,[req.params.request_type],(err, data)=>{
+        if(err) return res.status(500).json("Internal server error");
+
+        return res.status(200).json((data))
+    })
+}
+
+export const getLabResultListForDoctors = (req, res) =>{
+    const query =
+                `SELECT  
+                 clinic_management_system.patient.name AS patient_name,
+                 clinic_management_system.lab_report.lab_report_id,
+                 clinic_management_system.lab_report.date,
+                 clinic_management_system.staff.name AS laboratorist_name,
+                 clinic_management_system.lab_request.test_name,
+                 clinic_management_system.lab_request.request_type,
                  clinic_management_system.lab_report.test_report,
                  clinic_management_system.lab_report.patient_id
                  FROM clinic_management_system.lab_report 
@@ -157,7 +220,7 @@ export const getLabResult = (req, res) =>{
                  clinic_management_system.lab_report.date,
                  clinic_management_system.staff.name AS laboratorist_name,
                  clinic_management_system.lab_request.test_name,
-                 clinic_management_system.lab_request.test_type,
+                 clinic_management_system.lab_request.request_type,
                  clinic_management_system.lab_report.test_report
                  FROM clinic_management_system.lab_report 
                  JOIN clinic_management_system.patient 

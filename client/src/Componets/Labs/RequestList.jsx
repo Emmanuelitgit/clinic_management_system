@@ -37,14 +37,23 @@ const RequestList = () => {
   const role = localStorage.getItem("role").toLowerCase();
   const [data, setData] = useState({ columns: [], rows: [] });
 
+  let type;
+
+  if(role==="laboratorist"){
+    type = "requests/lab"
+  }else if(role === "doctor"){
+    type = "requests"
+  }else if(role === "radiographer"){
+    type = "requests/scan"
+  }
+
   const dep = useSelector(state => state.count?.depValue) || [2];
 
-  const test_type = "lab"
-
+console.log(type)
   useEffect(() => {
       const fetchData = async () => {
           try {
-              const response = await fetch(`http://localhost:5000/requests`);
+              const response = await fetch(`http://localhost:5000/${type}`);
               if (!response.ok) {
                   throw new Error('Failed to fetch data');
               }
@@ -55,7 +64,8 @@ const RequestList = () => {
                 { label: 'ID', field: 'id', sort: 'asc',  },
                 { label: 'Doctor', field: 'doctor', sort: 'asc' },
                 { label: 'Patient', field: 'patient', sort: 'asc' },
-                { label: 'Type', field: 'test_type', sort: 'asc' },
+                { label: 'Type', field: 'request_type', sort: 'asc' },
+                { label: 'Method', field: 'method', sort: 'asc' },
                 { label: 'Test Name', field: 'test_name', sort: 'asc' },
                 { label: 'Date', field: 'date', sort: 'asc' },
               ];
@@ -63,15 +73,15 @@ const RequestList = () => {
                   columns.push({ label: 'Actions', field: 'actions', sort: 'disabled' });
               }
 
-              if (role === "laboratorist") {
+              if (role === "laboratorist" || role === "radiographer") {
                 columns.push({ label: 'Payment', field: 'payment', sort: 'disabled' });
               }
 
-              if (role === "laboratorist") {
+              if (role === "laboratorist" || role === "radiographer") {
                 columns.push({ label: 'Status', field: 'status', sort: 'disabled' });
               }
 
-              if (role === "laboratorist") {
+              if (role === "laboratorist" || role === "radiographer") {
                 columns.push({ label: 'Action', field: 'action', sort: 'disabled' });
               }
            
@@ -82,7 +92,8 @@ const RequestList = () => {
                       id: item.request_id,
                       doctor: item.doctor_name,
                       patient: item.patient_name,
-                      test_type: item.test_type,
+                      request_type: item.request_type,
+                      method: item.method,
                       test_name: item.test_name,
                       date: item.date,
 
@@ -120,8 +131,8 @@ const RequestList = () => {
                       option2={"Ready"}
                       statusValue={item.lab_status}
                       name={"lab request"}
-                      width={'82%'}
-                      padding={'5%'}
+                      width={'90%'}
+                      padding={'6%'}
                       backgroundColor={item.lab_status === "Ready"? "orange" : "purple"}
                       url={'lab'}
                      />

@@ -1,17 +1,8 @@
 import React from 'react';
 import "./style.css";
-import { Dashboard,
-        Logout, 
-        Settings, 
+import { Dashboard, 
         Person, 
-        Science, 
-        LocalPharmacy,
-        MedicalServices,
-        PeopleAlt,
-        Bloodtype,
-        ArrowDropDown,
-        PersonAdd,
-        Healing } from '@mui/icons-material';
+        } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import LogoutBtn from '../Buttons/LogoutBtn';
 
@@ -36,7 +27,7 @@ const RadiographerSidebar = () => {
         <div className='item'>
           <Link className='link' to={"/radiographer/scan-reports"}>
           <Dashboard className='sidebar-icon'/>
-          <span className='item-name'>View Reports</span>
+          <span className='item-name'>Manage Results</span>
           </Link>
         </div>
         <div className='item'>

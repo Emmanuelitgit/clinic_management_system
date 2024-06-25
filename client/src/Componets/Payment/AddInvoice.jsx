@@ -108,8 +108,7 @@ export default function AddInvoice() {
           onClick={handleClickOpen}
           className='add-btn'
       >
-        <Add/>
-        Add Invoice
+         <Add style={{fontSize:'40px'}}/>
       </button>
       <BootstrapDialog
         aria-labelledby="customized-dialog-title"
