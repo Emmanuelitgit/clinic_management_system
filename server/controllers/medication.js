@@ -28,6 +28,33 @@ export const getPrescriptions = (req, res) =>{
     })
 }
 
+export const getPrescriptionsCountForDashBox = (req, res) =>{
+    const query = `
+    SELECT clinic_management_system.patient.name AS patient_name,
+    clinic_management_system.staff.name AS doctor_name,
+    clinic_management_system.prescription.prescription_id,
+    clinic_management_system.prescription.medication,
+    clinic_management_system.prescription.date,
+    clinic_management_system.invoice.status AS payment_status,
+    clinic_management_system.prescription.patient_id,
+    clinic_management_system.prescription.status AS med_status
+    FROM clinic_management_system.prescription 
+    JOIN clinic_management_system.patient 
+    ON clinic_management_system.patient.patient_id = clinic_management_system.prescription.patient_id
+    JOIN clinic_management_system.staff
+    ON clinic_management_system.staff.staff_id = clinic_management_system.prescription.doctor_id
+    LEFT JOIN clinic_management_system.invoice
+    ON clinic_management_system.prescription.patient_id=clinic_management_system.invoice.patient_id
+    WHERE clinic_management_system.prescription.status = 'Item Taken'
+    `;
+
+    db.query(query, (err, data)=>{
+        if(err) return res.status(500).json("Internal server error");
+
+        return res.status(200).json((data))
+    })
+}
+
 export const getPrescription = (req, res) =>{
     const query = `
     SELECT clinic_management_system.patient.name AS patient_name,
@@ -189,6 +216,7 @@ export const getMedicineList = (req, res) =>{
         return res.status(200).json((data))
     })
 }
+
 
 export const getMedicine = (req, res) =>{
     const query = "SELECT * FROM medicine WHERE medicine_id=?";

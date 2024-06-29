@@ -25,6 +25,16 @@ export const getReports = (req, res) =>{
     })
 }
 
+export const getAllReports = (req, res) =>{
+    const query =`SELECT * FROM report`;
+
+    db.query(query, (err, data)=>{
+        if(err) return res.status(500).json("Internal server error");
+
+        return res.status(200).json((data))
+    })
+}
+
 export const getReport = (req, res) =>{
     const query =
                 `SELECT  

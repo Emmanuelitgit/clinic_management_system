@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "./style.css";
-import { 
-       Menu,
-       Notifications, 
-       Message, 
-       ArrowDropDown } from '@mui/icons-material';
+import { Menu, Notifications, Message, ArrowDropDown } from '@mui/icons-material';
 import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -12,29 +8,25 @@ import Panelbar from '../Panelbar/Panelbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleSidebarToggle } from '../../store/modalState';
 import { Link, useLocation } from 'react-router-dom';
-
+import axios from 'axios';
 
 
 const Navbar = () => {
 
   //  const user = useSelector((state)=>state.auth?.currentUser) || []
   //  const role = useSelector((state)=>state.auth?.role) || []
-  const [settings, setSettings] = useState('')
-   const visible = useSelector((state)=>state.modal?.sidebar_toggle) || []
-   const roleValue = localStorage.getItem('role')
+  const dispatch = useDispatch()
+  const [settings, setSettings] = useState('');
+  const [count, setCount] = useState()
+   const visible = useSelector((state)=>state.modal?.sidebar_toggle) || [];
+   const roleValue = localStorage.getItem('role');
    const role = roleValue?.charAt(0).toUpperCase() + roleValue.slice(1);
-   const user = localStorage.getItem('user')
-   const location = useLocation()
-   const route = location.pathname.split("/")[1]
+   const user = localStorage.getItem('user');
+   const location = useLocation();
+   const route = location.pathname.split("/")[1];
    const dep = useSelector(state => state.count?.depValue) || [2];
 
 
-   const dispatch = useDispatch()
-
-
-   const handleToggle = () =>{
-    dispatch(handleSidebarToggle())
-   }
 
    useEffect(()=>{
     const getsettings = async()=>{
@@ -52,7 +44,25 @@ const Navbar = () => {
     getsettings()
   }, [dep])
 
-  // const app_name = settings?.map((item)=>item?.system_name)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/staff/${role}`);
+        const data = response.data;
+        setCount(data.length);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [dep]);
+
+  const handleToggle = () =>{
+    dispatch(handleSidebarToggle())
+   }
+
+
   return (
     <div className='navbar-container'>
       <div className='menu-title-container'>

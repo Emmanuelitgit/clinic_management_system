@@ -9,6 +9,7 @@ import {
         getMedicineList, 
         getPrescription, 
         getPrescriptions, 
+        getPrescriptionsCountForDashBox, 
         removeMedicine, 
         removeMedicineCategory, 
         removePrescription, 
@@ -21,6 +22,7 @@ import {
 const router = express.Router()
 
 router.get("/prescriptions", getPrescriptions);
+router.get("/prescriptions/count", getPrescriptionsCountForDashBox);
 router.get("/prescription/:id", getPrescription);
 router.post("/add_prescription", addPrescription);
 router.put("/update_prescription/:id", updatePrescription);

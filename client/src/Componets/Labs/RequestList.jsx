@@ -64,8 +64,8 @@ console.log(type)
                 { label: 'ID', field: 'id', sort: 'asc',  },
                 { label: 'Doctor', field: 'doctor', sort: 'asc' },
                 { label: 'Patient', field: 'patient', sort: 'asc' },
-                { label: 'Type', field: 'request_type', sort: 'asc' },
-                { label: 'Method', field: 'method', sort: 'asc' },
+                // { label: 'Type', field: 'request_type', sort: 'asc' },
+                // { label: 'Method', field: 'method', sort: 'asc' },
                 { label: 'Test Name', field: 'test_name', sort: 'asc' },
                 { label: 'Date', field: 'date', sort: 'asc' },
               ];
@@ -92,8 +92,8 @@ console.log(type)
                       id: item.request_id,
                       doctor: item.doctor_name,
                       patient: item.patient_name,
-                      request_type: item.request_type,
-                      method: item.method,
+                      // request_type: item.request_type,
+                      // method: item.method,
                       test_name: item.test_name,
                       date: item.date,
 
