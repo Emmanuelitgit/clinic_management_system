@@ -35,7 +35,8 @@ export default function AddAppointment() {
     patient_id:null,
     doctor_id:null,
     date:'',
-    description:description
+    description:description,
+    title:''
   });
 
 
@@ -146,6 +147,16 @@ const handleSubmit = async() => {
                   {item.name}
                 </option>
               ))}
+            </select>
+          </div>
+          <div className='input-container'>
+          <label htmlFor="">Title</label>
+            <select name="title" onChange={handleChange}  className='dropdown'>
+              <option value="">--Select Title--</option>
+              <option value="Medical Consultation">Medical Consultation</option>
+              <option value="Lab Review">Lab Review</option>
+              <option value="Medical Review">Medical Review</option>
+              <option value="Drug Prescription">Drug Prescription</option>
             </select>
           </div>
           <div className="editor-container">

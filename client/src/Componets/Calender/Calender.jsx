@@ -32,7 +32,8 @@ const Calender = () => {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 540, width:'100%' }}
+        style={{ height: 540, width:'70%' }}
+        timeslots={10}
       />
       <NoticeBoard/>
     </div>

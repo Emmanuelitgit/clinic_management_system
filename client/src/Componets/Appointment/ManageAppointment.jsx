@@ -15,6 +15,8 @@ import { depCountActions } from '../../store/depCount';
 import axios from "axios";
 import { getStaff, getPatients } from '../../store/data';
 import { useLocation } from 'react-router-dom';
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 import {handleToastSuccess, handleToastError} from "../../store/modalState"
 
 
@@ -34,10 +36,13 @@ export default function ManageAppointment({name, id, patient_id}) {
   const route = location.pathname.split('/')[1]
 
   const [open, setOpen] = React.useState(false);
+  const[description, setDescription] = useState()
   const [data, setData] = useState({
     patient_id:null,
     doctor_id:null,
-    date:''
+    date:'',
+    description:description,
+    title:''
   });
 
   const dispatch = useDispatch()
@@ -47,6 +52,10 @@ export default function ManageAppointment({name, id, patient_id}) {
   useEffect(()=>{
     dispatch(getStaff('Doctor'))
   }, [dispatch])
+
+  useEffect(() => {
+    setData((prevData) => ({ ...prevData, description }));
+  }, [description]);
 
   useEffect(()=>{
     dispatch(getPatients())
@@ -170,6 +179,24 @@ export default function ManageAppointment({name, id, patient_id}) {
               ))}
             </select>
           </div>
+          <div className='input-container'>
+          <label htmlFor="">Title</label>
+            <select name="title" onChange={handleChange}  className='dropdown'>
+              <option value="">--Select Title--</option>
+              <option value="Medical Consultation">Medical Consultation</option>
+              <option value="Lab Review">Lab Review</option>
+              <option value="Medical Review">Medical Review</option>
+              <option value="Drug Prescription">Drug Prescription</option>
+            </select>
+          </div>
+          <div className="editor-container">
+          <label htmlFor="" className='edtor-label'>Description</label>
+           <ReactQuill className="editor-input" 
+            theme="snow" value={description} 
+            onChange={setDescription} 
+            placeholder='Write appoitnment reason here..'
+            />
+         </div>
         </DialogContent>
         <DialogActions>
           <button autoFocus 

@@ -8,7 +8,7 @@ const query = `
 SELECT 
    clinic_management_system.patient.name AS patient_name,
    clinic_management_system.staff.name AS doctor_name,
-   date, appointment_id, description,
+   date, appointment_id, description, title,
    clinic_management_system.appointment.patient_id AS patient_id
    FROM clinic_management_system.appointment 
    JOIN clinic_management_system.staff 
@@ -29,7 +29,7 @@ export const getAppointment = (req, res) =>{
     SELECT 
        clinic_management_system.patient.name AS patient_name,
        clinic_management_system.staff.name AS doctor_name,
-       date, appointment_id, description
+       date, appointment_id, description, title
        FROM clinic_management_system.appointment 
        JOIN clinic_management_system.staff 
        ON Clinic_management_system.staff.staff_id = clinic_management_system.appointment.doctor_id
@@ -49,9 +49,10 @@ export const addAppointment = (req, res)=>{
         req.body.date,
         req.body.doctor_id,
         req.body.patient_id,
-        req.body.description
+        req.body.title,
+        req.body.description,
     ]
-    const query = "INSERT INTO appointment(`date`, `doctor_id`, `patient_id`, `description`) VALUES(?)";
+    const query = "INSERT INTO appointment(`date`, `doctor_id`, `patient_id`, `title`, `description`) VALUES(?)";
 
     db.query(query, [values], (err, data) => {
         if (err) return res.send(err)
@@ -64,10 +65,12 @@ export const updateAppointment = (req, res)=>{
     const values = [
         req.body.date,
         req.body.doctor_id,
-        req.body.patient_id
+        req.body.patient_id,
+        req.body.title,
+        req.body.description
     ]
     const updateId = req.params.id;
-    const query = "UPDATE appointment SET date = ?, doctor_id = ?, patient_id =? WHERE appointment_id=?";
+    const query = "UPDATE appointment SET date = ?, doctor_id = ?, patient_id =?, title =?, description=? WHERE appointment_id=?";
 
     db.query(query, [...values, updateId], (err, data) => {
         if (err) return res.send(err)
