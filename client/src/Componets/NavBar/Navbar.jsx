@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { handleSidebarToggle } from '../../store/modalState';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
-
+import ProfileModal from "../Profile/ProfileModal";
 
 const Navbar = () => {
 
@@ -26,7 +26,7 @@ const Navbar = () => {
    const route = location.pathname.split("/")[1];
    const dep = useSelector(state => state.count?.depValue) || [2];
 
-
+console.log(user)
 
    useEffect(()=>{
     const getsettings = async()=>{
@@ -89,17 +89,18 @@ const Navbar = () => {
               <NotificationsIcon color="action" className='profile-icon' style={{color:'white'}} />
          </Badge>
          <div className='user-profile-container'>
-            <img 
+            {/* <img 
             className='nav-profile-img'
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPfO37MK81JIyR1ptwqr_vYO3w4VR-iC2wqQ&usqp=CAU" alt="" />
-            <span className='user-name'>{user}</span>
+            <span className='user-name' style={{color:"white"}}>{user}</span>
             <ArrowDropDown 
              className='dropdown-icon'
              style={{
                fontWeight:'600',
                fontSize:'25px'
              }}
-             />
+             /> */}
+             <ProfileModal/>
          </div>
       </div>
       {/* <Panelbar/> */}

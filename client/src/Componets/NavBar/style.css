@@ -84,6 +84,7 @@ html{
     height: 33px;
     clip-path: circle();
     margin-right: 10px;
+    cursor: pointer;
 }
 .user-name{
     color: white;
