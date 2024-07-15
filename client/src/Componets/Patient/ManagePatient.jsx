@@ -33,6 +33,8 @@ export default function ManagePatient({name,id,patient,age,sex,email,blood_group
   // const patient = useSelector((state)=>state.data.patient)
   const existingProfile = profile !== null? profile : ''
 
+  console.log(existingProfile)
+
   const [open, setOpen] = useState(false);
   const[file, setFile] = useState(null);
   const [data, setData] = useState({

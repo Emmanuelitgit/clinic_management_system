@@ -71,6 +71,7 @@ const Navbar = () => {
                className='menu-icon'
                />
            </span>
+           <img src={require("../../uploads/logo2.avif")} alt=""  className='logo'/>
             <span className='navbar-title'>{settings[0]?.system_name}
             <span className='dash'>-</span> 
             </span> <span className='zangu'> ZANGU-VUGA</span>

@@ -33,7 +33,6 @@ html{
     top: 0;
     left:0%;
     right:0;
-   
     z-index: 1;
 }
 .menu-title-container{
@@ -41,6 +40,7 @@ html{
     align-items: center;
     justify-content: center;
     position: relative;
+    margin-left: 5%;
 }
 .menu-icon-container{
     position: absolute;
@@ -53,6 +53,13 @@ html{
 .navbar-title{
     color: white;
     font-weight: 530;
+}
+.logo{
+    width: 17%;
+    height: 248%;
+    border-radius: 50%;
+    position: absolute;
+    right: 105%;
 }
 .panel-type-text{
     color: white;

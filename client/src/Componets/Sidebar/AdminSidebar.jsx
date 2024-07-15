@@ -21,7 +21,8 @@ import { handleSidebarToggle } from '../../store/modalState';
 const AdminSidebar = () => {
 
   const [visible, setVisible] = useState(false)
-  const sidebarVisible = useSelector((state)=>state.modal?.sidebar_toggle)
+  const sidebarVisible = useSelector((state)=>state.modal?.sidebar_toggle);
+  const profile = localStorage?.getItem("profile")
   const [windowSize, setWindowSize] = useState()
 
 
@@ -49,6 +50,18 @@ const AdminSidebar = () => {
   return (
     <div className={sidebarVisible && windowSize < 1000? 'sidebar-toggle' : 'sidebar-container'}>
       <div className='sidebar-items-container'>
+        <Link to={'/admin/profile'} className='link'>
+         <div className='item'>
+           {profile !=='null' &&  <img 
+            className='sidebar-img'
+            src={require(`../../uploads/${profile}`)}
+            />}
+            {profile ==='null' &&  <img 
+            className='sidebar-img'
+            src={require(`../../uploads/default.png`)}
+            />}
+        </div>
+        </Link>
         <div className='item'>
           <Link to={"/admin/dashboard"} className='link' onClick={handleToggle}>
           <Dashboard className='sidebar-icon'/>
@@ -168,7 +181,12 @@ const AdminSidebar = () => {
           <span className='item-name'>Profile</span></Link>
         </div>
       </div>
-        <LogoutBtn visible={visible}/>
+        <div style={{
+          marginTop:'10%',
+          marginRight:'10%'
+        }}>
+          <LogoutBtn visible={visible}/>
+        </div>
     </div>
   )
 }

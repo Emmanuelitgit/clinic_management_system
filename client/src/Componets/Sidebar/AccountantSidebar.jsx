@@ -7,9 +7,23 @@ import LogoutBtn from '../Buttons/LogoutBtn';
 
 const AccountantSidebar = () => {
 
+  const profile = localStorage?.getItem("profile")
+
   return (
     <div className='sidebar-container'>
       <div className='sidebar-items-container'>
+       <Link to={'/pharmacist/profile'} className='link'>
+         <div className='item'>
+           {profile !=='null' &&  <img 
+            className='sidebar-img'
+            src={require(`../../uploads/${profile}`)}
+            />}
+            {profile ==='null' &&  <img 
+            className='sidebar-img'
+            src={require(`../../uploads/default.png`)}
+            />}
+        </div>
+        </Link>
         <div className='item'>
           <Link className='link' to={"/accountant/dashboard"}>
           <Dashboard className='sidebar-icon'/>
@@ -35,7 +49,12 @@ const AccountantSidebar = () => {
          </Link>
         </div>
       </div>
-      <LogoutBtn/>
+      <div style={{
+          marginTop:'10%',
+          marginRight:'10%'
+        }}>
+          <LogoutBtn/>
+      </div>
     </div>
   )
 }

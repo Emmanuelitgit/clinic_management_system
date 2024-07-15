@@ -21,7 +21,7 @@ html{
     scroll-behavior: smooth;
 }
 
-.sidebar-container{
+/* .sidebar-container{
     background-color:#0D2481;
     height: 140vh;
     width: 22%;
@@ -34,10 +34,33 @@ html{
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
+} */
+
+.sidebar-container {
+    background-color: #0D2481;
+    height: 140vh;
+    width: 22%;
+    top: 10%;
+    left: 0;
+    right: 0;
+    position: fixed;
+    overflow: auto; /* Keep overflow for scrolling */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+
+    /* Hide scrollbar */
+    scrollbar-width: none; /* Firefox */
 }
+
+.sidebar-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Edge */
+}
+
 .sidebar-items-container{
     margin-top: 20px;
-    height: 77vh;
+    height: 100vh;
     width: 25%;
     top: 0;
     left:0;
@@ -109,6 +132,12 @@ html{
     flex-direction: column;
     justify-content: space-between;
     z-index: 5;
+}
+
+.sidebar-img{
+    width: 60%;
+    height: 95%;
+    border-radius: 50%;
 }
 
 @media (min-width: 600px) and (max-width: 1000px) {

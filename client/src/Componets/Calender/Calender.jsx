@@ -11,12 +11,17 @@ const localizer = momentLocalizer(moment);
 const Calender = () => {
   const [events, setEvents] = useState([]);
 
+  const getText = (html) =>{
+    const doc = new DOMParser().parseFromString(html, "text/html")
+    return doc.body.textContent
+ }
+
   useEffect(() => {
     fetch('http://localhost:5000/appointments')
       .then(response => response.json())
       .then(data => {
         const formattedEvents = data?.map(appointment => ({
-          title: appointment.description,
+          title: getText(appointment.description),
           start: new Date(appointment.date),
           end: new Date(appointment.date),
         }));
