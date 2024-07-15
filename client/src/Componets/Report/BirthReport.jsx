@@ -28,6 +28,11 @@ const type = route?.split('-').map(word => word.charAt(0).toUpperCase() + word.s
     return text;
   };
 
+  const getText = (html) =>{
+    const doc = new DOMParser().parseFromString(html, "text/html")
+    return doc.body.textContent
+ }
+
   useEffect(() => {
       const fetchData = async () => {
           try {
@@ -54,7 +59,7 @@ const type = route?.split('-').map(word => word.charAt(0).toUpperCase() + word.s
                   columns: columns,
                   rows: fetchedData.map(item => ({
                       id: item.report_id,
-                      desc: truncateText(item.description, 20),
+                      desc: truncateText(getText(item.description), 20),
                       date: item.date,
                       patient: item.patient_name,
                       doctor:item.doctor_name,
@@ -63,6 +68,11 @@ const type = route?.split('-').map(word => word.charAt(0).toUpperCase() + word.s
                             name={"Birth"}
                             id={item.report_id}
                             patient_id={item.patient_id}
+                            patient_name={item.patient_name}
+                            doctor_id={item.doctor_id}
+                            doctor_name={item.doctor_name}
+                            desc={item.description}
+                            date={item.date}
                            />
                       )
                   })),

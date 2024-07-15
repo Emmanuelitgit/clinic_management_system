@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -6,12 +6,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import Button from '../../../Componets/Buttons/Button';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { depCountActions } from '../../../store/depCount';
 import { handleToastError, handleToastSuccess } from '../../../store/modalState';
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -22,8 +23,11 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ManageStaff({ name, id }) {
+export default function ManageStaff({ name,id,profile,role,phone,address,email,password,department, staff_name}) {
+
   const navigate = useNavigate();
+  const existingProfile = profile !== null? profile : ''
+  const[file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({
     name: "",
@@ -35,10 +39,20 @@ export default function ManageStaff({ name, id }) {
     department: "",
   });
 
+  console.log(profile)
   const dispatch = useDispatch();
 
   const handleClickOpen = () => {
     setOpen(true);
+    setData({
+      name:staff_name,
+      role:role,
+      phone:phone,
+      address:address,
+      email:email,
+      password:password,
+      department:department,
+    })
   };
 
   const handleChange = (e) => {
@@ -52,9 +66,30 @@ export default function ManageStaff({ name, id }) {
     dispatch(depCountActions.handleCount());
   };
 
+  const upload = async ()=>{
+    try{
+        const formData = new FormData();
+        formData.append("file", file)
+        const res = await axios.post("http://localhost:5000/upload", formData)
+        return res.data
+    }catch(err){
+        console.log(err)
+    }
+ }
+
   const handleUpdate = async () => {
+    const imgUrl = await upload()
     try {
-      const response = await axios.put(`http://localhost:5000/update_staff/${id}`, data);
+      const response = await axios.put(`http://localhost:5000/update_staff/${id}`, {
+        name:data.name,
+        role:data.role,
+        phone:data.phone,
+        address:data.address,
+        email:data.email,
+        password:data.password,
+        department:data.department,
+        profile:file? imgUrl : existingProfile
+      });
       if (response.status === 201) {
         handleDepCount();
         handleClose();
@@ -126,6 +161,7 @@ export default function ManageStaff({ name, id }) {
               className='input'
               placeholder='eg Emmanuel Yidana'
               name='name'
+              value={data.name}
               onChange={handleChange}
             />
           </div>
@@ -135,6 +171,7 @@ export default function ManageStaff({ name, id }) {
               className='input'
               placeholder='eg eyidana001@gmial.com'
               name='email'
+              value={data.email}
               onChange={handleChange}
             />
           </div>
@@ -144,6 +181,7 @@ export default function ManageStaff({ name, id }) {
               className='input'
               placeholder='enter a strong password'
               name='password'
+              value={data.password}
               onChange={handleChange}
             />
           </div>
@@ -153,6 +191,7 @@ export default function ManageStaff({ name, id }) {
               className='input'
               placeholder='eg 0597893082'
               name='phone'
+              value={data.phone}
               onChange={handleChange}
             />
           </div>
@@ -162,17 +201,21 @@ export default function ManageStaff({ name, id }) {
               className='input'
               placeholder='University of Ghana'
               name='address'
+              value={data.address}
               onChange={handleChange}
             />
           </div>
           <div className='input-container'>
-            <label htmlFor="" className='label'>Role</label>
-            <input type="text"
-              className='input'
-              placeholder='University of Ghana'
-              name='role'
-              onChange={handleChange}
-            />
+          <label htmlFor="">Role</label>
+            <select name="role" onChange={handleChange} className='dropdown'>
+              <option value="">{data.role}</option>
+              <option value='Doctor'>Doctor</option>
+              <option value="Nurse">Nurse</option>
+              <option value="Pharmacist">Pharmacist</option>
+              <option value="Laboratorist">Laboratorist</option>
+              <option value="Radiographer">Radiographer</option>
+              <option value="Accountant">Accountant</option>
+            </select>
           </div>
           {name === "Doctor" &&
             <div className='input-container'>
@@ -181,10 +224,15 @@ export default function ManageStaff({ name, id }) {
                 className='input'
                 placeholder='eg Public Health'
                 name='department'
+                value={data.department}
                 onChange={handleChange}
               />
             </div>
           }
+           <div className='input-container'>
+              <label htmlFor="" className='label'>Profile Image</label>
+              <input type="file" name="file" id="file" onChange={e=>setFile(e.target.files[0])} />
+          </div>
         </DialogContent>
         <DialogActions>
           <button autoFocus

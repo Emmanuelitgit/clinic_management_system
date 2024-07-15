@@ -263,6 +263,7 @@ const router = createBrowserRouter([
             {path: "/radiographer/request-list",element: <RequestList/>},
             {path: "/radiographer/scan-reports",element: <ResultList/>},
             { path: "/radiographer/view-result/:id", element: <ViewResult /> },
+            { path: "/radiographer/profile", element: <Profile /> },
           ]
         },
 

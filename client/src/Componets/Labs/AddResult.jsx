@@ -50,7 +50,7 @@ export default function AddResult() {
       ...prev,
       patient_id: result_id,
     }));
-  }, [result_id]);
+  }, []);
 
 
   useEffect(() => {

@@ -28,7 +28,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ManageRequest({name, id, patient_id}) {
+export default function ManageRequest(
+  {name, id, patient_id,doctor_id,request_type,method,test_name,date,doctor_name,patient_name}
+) {
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -58,6 +60,14 @@ export default function ManageRequest({name, id, patient_id}) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    setData({
+      patient_id:patient_id,
+      doctor_id:doctor_id,
+      request_type:request_type,
+      test_name:test_name,
+      method:method,
+      date:date
+    })
   };
 
   const handleNavigate = () =>{
@@ -145,7 +155,7 @@ export default function ManageRequest({name, id, patient_id}) {
         <div className='input-container'>
           <label htmlFor="">Patient</label>
             <select name="patient_id" onChange={handleChange} value={data.patient} className='dropdown'>
-              <option value="">--Select Patient--</option>
+              <option value={data.patient_id}>{patient_name}</option>
               {patients?.map((item)=>(
                 <option value={item.patient_id} key={item.patient_id}>
                   {item.name}
@@ -156,7 +166,7 @@ export default function ManageRequest({name, id, patient_id}) {
         <div className='input-container'>
           <label htmlFor="">Doctor</label>
             <select name="doctor_id" onChange={handleChange} value={data.doctor}  className='dropdown'>
-              <option value="">--Select Doctor--</option>
+              <option value={data.doctor_id}>{doctor_name}</option>
               {doctors?.map((item)=>(
                 <option value={item.staff_id} key={item.staff_id}>
                   {item.name}
@@ -167,7 +177,7 @@ export default function ManageRequest({name, id, patient_id}) {
         <div className='input-container'>
           <label htmlFor="">Request Type</label>
             <select name="request_type" onChange={handleChange} value={data.doctor}  className='dropdown'>
-              <option value="">--Select request type--</option>
+              <option value={data.request_type}>{request_type}</option>
               <option value="Lab">Lab</option>
               <option value="Scan">Scan</option>
             </select>
@@ -175,7 +185,7 @@ export default function ManageRequest({name, id, patient_id}) {
         <div className='input-container'>
           <label htmlFor="">Test Method</label>
             <select name="method" onChange={handleChange} value={data.doctor}  className='dropdown'>
-              <option value="">--Select test method--</option>
+              <option value={data.method}>{method}</option>
               <option value="Blood Draw">Blood Draw</option>
               <option value="Urine Sample">Urine Sample</option>
               <option value="Stool Sample">Stool Sample</option>
@@ -186,7 +196,7 @@ export default function ManageRequest({name, id, patient_id}) {
         <div className='input-container'>
           <label htmlFor="">Test/Scan Name</label>
             <select name="test_name" onChange={handleChange} value={data.doctor}  className='dropdown'>
-              <option value="">--Select test name--</option>
+              <option value={data.test_name}>{test_name}</option>
               <option value="Malaria">Malaria</option>
               <option value="Hepatitis B">Hepatitis B</option>
               <option value="Hepatitis A">Hepatitis A</option>
@@ -201,6 +211,7 @@ export default function ManageRequest({name, id, patient_id}) {
             <input type="date"
               className='input'
               name='date'
+              value={data.date}
               onChange={handleChange}  
             />
         </div>

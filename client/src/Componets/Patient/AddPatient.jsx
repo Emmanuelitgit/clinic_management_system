@@ -8,6 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Add } from '@mui/icons-material';
+import { useState } from 'react';
 import { depCountActions } from '../../store/depCount';
 import axios from "axios";
 import { useDispatch} from 'react-redux';
@@ -25,6 +26,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function AddPatient() {
 
   const [open, setOpen] = React.useState(false);
+  const[file, setFile] = useState(null);
   const [data, setData] = React.useState({
     name:'',
     email:'', 
@@ -35,7 +37,6 @@ export default function AddPatient() {
     birth_date:'', 
     blood_group:'',
   })
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -59,9 +60,31 @@ export default function AddPatient() {
     })
   }
 
+  const upload = async ()=>{
+    try{
+        const formData = new FormData();
+        formData.append("file", file)
+        const res = await axios.post("http://localhost:5000/upload", formData)
+        return res.data
+    }catch(err){
+        console.log(err)
+    }
+ }
+
   const handleSubmit = async() => {
+    const imgUrl = await upload()
     try {
-      const response = await axios.post(`http://localhost:5000/add_patient`, data);
+      const response = await axios.post(`http://localhost:5000/add_patient`, {
+        name:data.name,
+        email:data.email, 
+        phone:data.phone, 
+        address:data.address, 
+        age:data.age, 
+        sex:data.sex, 
+        birth_date:data.birth_date, 
+        blood_group:data.blood_group,
+        profile:file? imgUrl : ""
+      });
       if(response.status === 201){
         handleDepCount()
         handleClose()
@@ -69,6 +92,7 @@ export default function AddPatient() {
       }
     } catch (error) {
       dispatch(handleToastError("Error! cannot perform operation"))
+      console.log(error)
     }
   };
 
@@ -171,6 +195,10 @@ export default function AddPatient() {
                name='birth_date'
                onChange={hadnleChange}
             />
+          </div>
+          <div className='input-container'>
+              <label htmlFor="" className='label'>Profile Image</label>
+              <input type="file" name="file" id="file" onChange={e=>setFile(e.target.files[0])} />
           </div>
         </DialogContent>
         <DialogActions>

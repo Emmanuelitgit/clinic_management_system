@@ -1,10 +1,17 @@
-import mysql from 'mysql'
+// import mysql from 'mysql2/promise';
+import mysql from 'mysql';
+import dotenv from 'dotenv';
 
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "Emma19571!",
-    database: "clinic_management_system"
-  })
+dotenv.config();
 
-  export default db;
+const db = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DBNAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
+
+export default db;

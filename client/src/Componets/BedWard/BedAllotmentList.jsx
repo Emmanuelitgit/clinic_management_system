@@ -54,6 +54,12 @@ const BedAllotmentList = () => {
                           name={"Bed Allotment"}
                           id={item.allotment_id}
                           patient_id={item.patient_id}
+                          discharge_date={item.discharge_date}
+                          allotment_date={item.allotment_date}
+                          bed_id={item.alloted_bed_id}
+                          patient_name={item.patient_name}
+                          bed_number={item.bed_number}
+                          bed_type={item.bed_type}
                           />
                       )
                   })),

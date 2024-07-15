@@ -27,7 +27,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ManageAllotment({name, id, patient_id}) {
+export default function ManageAllotment(
+  {name,id,patient_id,allotment_date,discharge_date,bed_id,patient_name,bed_number,bed_type}
+) {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -56,6 +58,12 @@ export default function ManageAllotment({name, id, patient_id}) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    setData({
+      patient_id:patient_id,
+      bed_id:bed_id,
+      allotment_date:allotment_date,
+      discharge_date:discharge_date
+    })
   };
 
   const handleNavigate = () =>{
@@ -144,7 +152,7 @@ export default function ManageAllotment({name, id, patient_id}) {
         <div className='input-container'>
           <label htmlFor="">Patient</label>
             <select name="patient_id" onChange={handleChange} value={data.patient} className='dropdown'>
-              <option value="">--Select Patient--</option>
+              <option value={data.patient_id}>{patient_name}</option>
               {patients?.map((item)=>(
                 <option value={item.patient_id} key={item.patient_id}>
                   {item.name}
@@ -155,7 +163,7 @@ export default function ManageAllotment({name, id, patient_id}) {
           <div className='input-container'>
           <label htmlFor="">Bed</label>
             <select name="bed_id" onChange={handleChange} value={data.bed} className='dropdown'>
-              <option value="">--Select Bed--</option>
+              <option value={data.bed_id}>{bed_number+`(${bed_number})`}</option>
               {beds?.map((item)=>(
                 <option value={item.bed_id} key={item.bed_id}>
                   {item.bed_type}({item.bed_number})
@@ -169,6 +177,7 @@ export default function ManageAllotment({name, id, patient_id}) {
               className='input'
               placeholder='eg 03/05/2024'
               name='allotment_date'
+              value={data.allotment_date}
               onChange={handleChange} 
             />
           </div>
@@ -178,6 +187,7 @@ export default function ManageAllotment({name, id, patient_id}) {
               className='input'
               placeholder='eg 03/05/2024'
               name='discharge_date'
+              value={data.discharge_date}
               onChange={handleChange} 
             />
           </div>

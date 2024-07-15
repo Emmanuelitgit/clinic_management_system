@@ -4,11 +4,11 @@ import { useLocation } from 'react-router-dom';
 
 const ViewPatient = () => {
 
-    const[data, setData] = useState()
+    const[data, setData] = useState([]);
+    const[profile, setProfile] = useState()
     const location = useLocation();
     const id = location.pathname.split("/")[3]; 
 
-    const role = data?.map((d)=>d.role)
     const name = data?.map((d)=>d.name)
 
     function getFirstWord(str, num) {
@@ -20,6 +20,10 @@ const ViewPatient = () => {
     let firstName = getFirstWord(sentence, 0);
     let lastName = getFirstWord(sentence, 1);
 
+    const getText = (html) =>{
+      const doc = new DOMParser().parseFromString(html, "text/html")
+      return doc.body.textContent
+   }
    
     useEffect(()=>{
         const getStaff = async()=>{
@@ -29,6 +33,8 @@ const ViewPatient = () => {
             console.log("faild to fetch data...")
             }
             const fetchedData = await response.json()
+            const { profile } = fetchedData[0];
+            setProfile(profile)
             setData(fetchedData)
             } catch (error) {
                 console.log(error)
@@ -37,11 +43,13 @@ const ViewPatient = () => {
         getStaff()
     }, [])
 
+
   return (
     <div className='view-patient-container '>
          <div className='view-patient-sub-container'>
             <div className="view-staff-profile-items">
-                <img src={doctor} alt=""  className='view-staff-profile'/>
+                {profile && <img src={require(`../../uploads/${profile}`)} alt=""  className='view-staff-profile'/>}
+                {!profile && <img src={require(`../../uploads/default.png`)} alt=""  className='view-staff-profile'/>}
              <div style={{display:'flex',flexDirection:'column'}}>
              <span className="view-patient-profile-item ">{name}</span>
              <span className="view-patient-profile-item profile-item-role">(Patient)</span>

@@ -1,7 +1,3 @@
-import cookieParser from "cookie-parser";
-import cors from "cors";
-import express from "express";
-import bodyParser from "body-parser";
 import authRoute from "./routes/auth.js";
 import staffRoute from "./routes/staff.js";
 import patientAuth from "./routes/patient.js";
@@ -13,11 +9,16 @@ import medicationRoute from "./routes/medication.js";
 import requestRoute from "./routes/labs.js";
 import invoiceRoute from "./routes/payment.js";
 import settingRoute from "./routes/setting.js";
+import app from "./middleware/middleware.js"
 import { Server } from "socket.io";
 import db from "./db.js";
 import http from "http";
+import multer from "multer";
+import dotenv from "dotenv";
 
-const app = express();
+// Load environment variables from .env file
+dotenv.config();
+
 
 const server = http.createServer(app);
 
@@ -28,11 +29,22 @@ const io = new Server(server, {
     }
 });
 
-app.use(cookieParser());
-app.use(cors());
-app.use(express.json());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+const storage = multer.diskStorage({
+    destination: function (req, file, cb){
+      cb(null, '../client/public/uploads')
+    },
+    filename: function(req, file, cb){
+      cb(null, Date.now()+file?.originalname)
+    }
+  })
+  
+  const upload = multer({storage})
+  
+  app.post("/upload", upload.single('file'), function(req, res){
+    const file = req.file
+    res.status(200).json(file?.filename)
+  });
+
 
 // ROUTES DEFINITIONS
 app.use("/", authRoute);
@@ -86,6 +98,7 @@ app.post('/messages', (req, res) => {
     });
 });
 
-server.listen(5000, () => {
-    console.log("App is running on port 5000");
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+    console.log(`App is running on port ${PORT}`);
 });

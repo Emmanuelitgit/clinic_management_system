@@ -8,9 +8,23 @@ const ViewBloodBank = () => {
     const[data, setData] = useState()
     const location = useLocation();
     const id = location.pathname.split("/")[3];
-    let patient_name = data?.map((d)=>d?.patient_name)
- 
+    let names = data?.map((d)=>d?.patient_name)
 
+    names = Array.isArray(names) ? names : [names];
+
+    let patient_name = null;
+    for (const name of names) {
+        if (name?.includes(' ')) {
+            patient_name = name;
+            break;
+        }
+    }
+
+    const getText = (html) =>{
+        const doc = new DOMParser().parseFromString(html, "text/html")
+        return doc.body.textContent
+     }
+ 
     useEffect(()=>{
         const getStaff = async()=>{
             try {
@@ -28,12 +42,10 @@ const ViewBloodBank = () => {
         getStaff()
     }, [])
 
-    console.log(data)
 
   return (
     <div className='view-result-container'>
             <h3 className='result-title'>Lab Result ({patient_name})</h3>
-            {data?.map((lab)=>(
                 <div className="medical-history-container">
                 <table className='medical-history-table'>
                   <thead className='table-head'>
@@ -45,16 +57,17 @@ const ViewBloodBank = () => {
                      </tr>
                    </thead>
                    <tbody>
+                   {data?.map((lab)=>(
                      <tr className='medical-history-td-tr view-patient-tr'>
-                         <td className='medical-history-td-tr'>{lab.test_report}</td>
+                         <td className='medical-history-td-tr'>{getText(lab.test_report)}</td>
                          <td className='medical-history-td-tr'>{lab.test_name}</td>
                          <td className='medical-history-td-tr'>{lab.laboratorist_name}</td>
                          <td className='medical-history-td-tr'>{lab.laboratorist_name}</td>
                      </tr>
+                      ))}
                    </tbody>
                 </table>
              </div>  
-            ))}
     </div>
   )
 }

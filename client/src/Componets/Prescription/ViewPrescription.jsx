@@ -20,6 +20,11 @@ const ViewPrescription = () => {
         }
     }
 
+    const getText = (html) =>{
+      const doc = new DOMParser().parseFromString(html, "text/html")
+      return doc.body.textContent
+   }
+   
     useEffect(()=>{
         const getStaff = async()=>{
             try {
@@ -54,7 +59,7 @@ const ViewPrescription = () => {
                   <tbody>
                     {data?.map((prescription)=>(
                     <tr className='medical-history-td-tr view-patient-tr' key={prescription.prescription_id}>
-                       <td className='medical-history-td-tr'>{prescription.description}</td>
+                       <td className='medical-history-td-tr'>{getText(prescription.description)}</td>
                        <td className='medical-history-td-tr'>{prescription.medication}</td>
                        <td className='medical-history-td-tr'>{prescription.med_status}</td>
                        <td className='medical-history-td-tr'>{prescription.payment_status}</td>

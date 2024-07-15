@@ -59,7 +59,7 @@ const AdminBoxes = () => {
         name:"Patient",
         background:"bg-success",
         link:'/admin/patient-list',
-        total: patients.length
+        // total: patients.length
       },
       {
         id:4,

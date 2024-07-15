@@ -19,7 +19,6 @@ export const modalSlice = createSlice({
         },
         handleSidebarToggle:(state)=>{
             state.sidebar_toggle = !state.sidebar_toggle
-            console.log(state.sidebar_toggle)
         },
         handleToastSuccess:(state, action)=>{
             toast.success(action.payload)

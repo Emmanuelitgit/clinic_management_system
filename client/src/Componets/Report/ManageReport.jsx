@@ -30,7 +30,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ManageReport({name, id, patient_id}) {
+export default function ManageReport({name,id,patient_id,patient_name,doctor_name,doctor_id,desc,date}) {
 
   const navigate = useNavigate()
 
@@ -41,13 +41,13 @@ export default function ManageReport({name, id, patient_id}) {
   const type = route?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 
   const [open, setOpen] = React.useState(false);
-  const[description, setDescription] = useState()
+  const[description, setDescription] = useState(desc)
   const [data, setData] = useState({
-    description:'', 
     date:'', 
     patient_id:null, 
     doctor_id:null, 
-    report_type:type
+    report_type:type,
+    description:description, 
   });
 
   const dispatch = useDispatch()
@@ -59,6 +59,10 @@ export default function ManageReport({name, id, patient_id}) {
   }, [dispatch])
 
   useEffect(()=>{
+    setDescription(desc)
+  }, [open])
+
+  useEffect(()=>{
     dispatch(getPatients())
   }, [dispatch])
 
@@ -68,6 +72,13 @@ export default function ManageReport({name, id, patient_id}) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    setData({
+      date:date, 
+      patient_id:patient_id, 
+      doctor_id:doctor_id, 
+      report_type:type,
+      description:desc
+    })
   };
 
   const handleNavigate = () =>{
@@ -112,6 +123,7 @@ export default function ManageReport({name, id, patient_id}) {
     }
   };
 
+  
   const handleDelete = async() => {
     try {
       const response = await axios.delete(`http://localhost:5000/remove_report/${id}`);
@@ -157,13 +169,14 @@ export default function ManageReport({name, id, patient_id}) {
             <input type="date"
               className='input'
               name='date'
+              value={data.date}
               onChange={handleChange}  
             />
           </div>
            <div className='input-container'>
             <label htmlFor="">Patient</label>
             <select name="patient_id" onChange={handleChange} className='dropdown'>
-              <option value="">--Select Patient--</option>
+              <option value={data.patient_id}>{patient_name}</option>
               {patients?.map((item)=>(
                 <option value={item.patient_id} key={item.patient_id}>
                   {item.name}
@@ -174,7 +187,7 @@ export default function ManageReport({name, id, patient_id}) {
           <div className='input-container'>
             <label htmlFor="">Patient</label>
             <select name="doctor_id" onChange={handleChange} className='dropdown'>
-              <option value="">--Select Doctor--</option>
+              <option value={data.doctor_id}>{doctor_name}</option>
               {doctors?.map((item)=>(
                 <option value={item.staff_id} key={item.staff_id}>
                   {item.name}
@@ -184,7 +197,12 @@ export default function ManageReport({name, id, patient_id}) {
           </div>
           <div className="editor-container">
             <label htmlFor="" className='edtor-label'>Description</label>
-            <ReactQuill className="editor-input" theme="snow" value={description} onChange={setDescription} />
+            <ReactQuill 
+             className="editor-input" 
+             theme="snow" 
+             value={description} 
+             onChange={setDescription} 
+             />
           </div>
         </DialogContent>
         <DialogActions>

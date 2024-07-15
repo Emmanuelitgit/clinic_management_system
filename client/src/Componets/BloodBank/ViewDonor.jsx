@@ -10,6 +10,10 @@ const ViewDonor = () => {
     const id = location.pathname.split("/")[3];
     let donor_name = data?.map((d)=>d?.name)
 
+    const getText = (html) =>{
+      const doc = new DOMParser().parseFromString(html, "text/html")
+      return doc.body.textContent
+   }
 
     useEffect(()=>{
         const getStaff = async()=>{
@@ -46,7 +50,7 @@ const ViewDonor = () => {
                    <tbody>
                      {data?.map((donor)=>(
                      <tr className='medical-history-td-tr view-patient-tr' key={donor.blood_donor_id}>
-                       <td className='medical-history-td-tr'>{donor.comment}</td>
+                       <td className='medical-history-td-tr'>{getText(donor.comment)}</td>
                        <td className='medical-history-td-tr'>{donor.email}</td>
                        <td className='medical-history-td-tr'>{donor.age}</td>
                        <td className='medical-history-td-tr'>{donor.sex}</td>

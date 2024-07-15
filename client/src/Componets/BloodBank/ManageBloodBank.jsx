@@ -29,7 +29,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ManageBloodBank({name, id}) {
+export default function ManageBloodBank({name, id, blood_group, status}) {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -44,6 +44,10 @@ export default function ManageBloodBank({name, id}) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    setData({
+      blood_group:blood_group,
+      status:status
+    })
   };
 
   const handleNavigate = () =>{
@@ -133,7 +137,8 @@ export default function ManageBloodBank({name, id}) {
             <input type="text"
               className='input'
               placeholder='eg AB+'
-              name='blood_group' 
+              name='blood_group'
+              value={data.blood_group} 
               onChange={handleChange}
             />
           </div>
@@ -143,6 +148,7 @@ export default function ManageBloodBank({name, id}) {
               className='input'
               placeholder='eg 150'
               name='status'
+              value={data.status}
               onChange={handleChange} 
             />
           </div>

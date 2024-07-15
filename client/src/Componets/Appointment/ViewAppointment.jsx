@@ -19,6 +19,11 @@ const ViewAppointment = () => {
             break;
         }
     }
+
+    const getText = (html) =>{
+      const doc = new DOMParser().parseFromString(html, "text/html")
+      return doc.body.textContent
+   }
  
 
     useEffect(()=>{
@@ -46,6 +51,7 @@ const ViewAppointment = () => {
                   <thead className='table-head'>
                      <tr className='medical-history-td-tr view-patient-tr'>
                          <th className='view-patient-th '>Appointment Reason</th>
+                         <th className='view-patient-th '>Title</th>
                          <th className='view-patient-th '>Doctor</th>
                          <th className='view-patient-th '>Date</th>
                      </tr>
@@ -53,7 +59,8 @@ const ViewAppointment = () => {
                    <tbody>
                      {data?.map((appointment)=>(
                       <tr className='medical-history-td-tr view-patient-tr' key={appointment.appointment_id}>
-                         <td className='medical-history-td-tr'>{appointment.description}</td>
+                         <td className='medical-history-td-tr'>{getText(appointment.description)}</td>
+                         <td className='medical-history-td-tr'>{appointment.title}</td>
                          <td className='medical-history-td-tr'>{appointment.doctor_name}</td>
                          <td className='medical-history-td-tr'>{appointment.date}</td>
                       </tr>

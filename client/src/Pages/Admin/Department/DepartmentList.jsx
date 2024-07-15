@@ -45,8 +45,9 @@ const DatatablePage = () => {
               actions: (
               <>
               <ManageDepartment
-              name={"Department"}
+              name={item.name}
               id={item.department_id}
+              desc={item.description}
               />
               </>
               ),

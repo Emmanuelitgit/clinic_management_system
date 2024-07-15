@@ -14,9 +14,27 @@ export const getStaff = createAsyncThunk("doctors", async (role) => {
     }
   });
 
+  export const getSingleStaff = createAsyncThunk("staff", async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/single_staff/${id}`);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
   export const getPatients = createAsyncThunk("patients", async () => {
     try {
       const response = await axios.get(`http://localhost:5000/patients`);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  export const getPatient = createAsyncThunk("patient", async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/patient/${id}`);
       return response.data;
     } catch (err) {
       console.log(err);
@@ -135,7 +153,9 @@ export const dataSlice = createSlice({
     name:"data",
     initialState:{
         staff:[],
+        singleStaff:[],
         patients:[],
+        patient:[],
         beds:[],
         bloodBank:[],
         reports:[],
@@ -190,7 +210,13 @@ export const dataSlice = createSlice({
           })
           .addCase(getBloodDonors.fulfilled, (state,action)=>{
             state.bloodDonors = action.payload
-          })                           
+          })
+          .addCase(getPatient.fulfilled, (state,action)=>{
+            state.patient = action.payload
+          })
+          .addCase(getSingleStaff.fulfilled, (state,action)=>{
+            state.singleStaff = action.payload
+          })                            
     }
 })
 

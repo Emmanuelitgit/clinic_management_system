@@ -47,6 +47,8 @@ const BloodBank = () => {
                           <ManageBloodBank
                             name={"Blood Bank"}
                             id={item.blood_bank_id}
+                            blood_group={item.blood_group}
+                            status={item.status}
                            />
                       )
                   })),

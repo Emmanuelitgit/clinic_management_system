@@ -29,14 +29,14 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ManageAppointment({name, id, patient_id}) {
+export default function ManageAppointment({name,id,patient_id,doctor_id,patient_name,date,doctor_name,desc,title}) {
 
   const navigate = useNavigate()
   const location = useLocation()
   const route = location.pathname.split('/')[1]
 
   const [open, setOpen] = React.useState(false);
-  const[description, setDescription] = useState()
+  const[description, setDescription] = useState(desc)
   const [data, setData] = useState({
     patient_id:null,
     doctor_id:null,
@@ -53,6 +53,10 @@ export default function ManageAppointment({name, id, patient_id}) {
     dispatch(getStaff('Doctor'))
   }, [dispatch])
 
+  useEffect(()=>{
+    setDescription(desc)
+  }, [open])
+
   useEffect(() => {
     setData((prevData) => ({ ...prevData, description }));
   }, [description]);
@@ -63,6 +67,12 @@ export default function ManageAppointment({name, id, patient_id}) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    setData({
+      patient_id:patient_id,
+      doctor_id:doctor_id,
+      date:date,
+      title:title
+    })
   };
 
   const handleNavigate = () =>{
@@ -154,13 +164,14 @@ export default function ManageAppointment({name, id, patient_id}) {
               className='input'
               placeholder='eg 24/05/2000'
               name='date'
+              value={data.date}
               onChange={handleChange} 
             />
           </div>
           <div className='input-container'>
           <label htmlFor="">Doctor</label>
             <select name="doctor_id" onChange={handleChange} value={data.doctor}  className='dropdown'>
-              <option value="">--Select Doctor--</option>
+              <option value={data.doctor_id}>{doctor_name}</option>
               {doctors?.map((item)=>(
                 <option value={item.staff_id} key={item.staff_id}>
                   {item.name}
@@ -171,7 +182,7 @@ export default function ManageAppointment({name, id, patient_id}) {
           <div className='input-container'>
           <label htmlFor="">Patient</label>
             <select name="patient_id" onChange={handleChange} value={data.patient} className='dropdown'>
-              <option value="">--Select Patient--</option>
+              <option value={data.patient_id}>{patient_name}</option>
               {patients?.map((item)=>(
                 <option value={item.patient_id} key={item.patient_id}>
                   {item.name}
@@ -182,7 +193,7 @@ export default function ManageAppointment({name, id, patient_id}) {
           <div className='input-container'>
           <label htmlFor="">Title</label>
             <select name="title" onChange={handleChange}  className='dropdown'>
-              <option value="">--Select Title--</option>
+              <option value={data.title}>{data.title}</option>
               <option value="Medical Consultation">Medical Consultation</option>
               <option value="Lab Review">Lab Review</option>
               <option value="Medical Review">Medical Review</option>
@@ -192,7 +203,8 @@ export default function ManageAppointment({name, id, patient_id}) {
           <div className="editor-container">
           <label htmlFor="" className='edtor-label'>Description</label>
            <ReactQuill className="editor-input" 
-            theme="snow" value={description} 
+            theme="snow" 
+            value={description} 
             onChange={setDescription} 
             placeholder='Write appoitnment reason here..'
             />

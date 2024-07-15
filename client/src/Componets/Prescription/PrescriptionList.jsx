@@ -145,6 +145,12 @@ const PrescriptionList = () => {
                             name={"Prescription"}
                             id={item.prescription_id}
                             patient_id={item.patient_id}
+                            doctor_id={item.doctor_id}
+                            medication={item.medication}
+                            date={item.date}
+                            desc={item.description}
+                            patient_name={item.patient_name}
+                            doctor_name={item.doctor_name}
                            />
                       )
                   })),

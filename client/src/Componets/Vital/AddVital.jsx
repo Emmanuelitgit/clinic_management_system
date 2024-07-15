@@ -14,6 +14,8 @@ import { depCountActions } from '../../store/depCount';
 import axios from "axios";
 import { getStaff, getPatients } from '../../store/data';
 import {handleToastSuccess, handleToastError} from "../../store/modalState"
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -28,14 +30,16 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function AddVital() {
 
   const [open, setOpen] = React.useState(false);
+  const[comment, setComment] = useState()
   const [data, setData] = useState({
     patient_id:null,
     nurse_id:null,
+    date:'',
     bp_level:'',
     temperature:'',
     height:'',
     age:'',
-    date:''
+    comment:comment,
   });
 
   const handleClickOpen = () => {
@@ -48,6 +52,10 @@ export default function AddVital() {
   const dispatch = useDispatch()
   const nurses = useSelector((state)=>state.data?.staff) || []
   const patients = useSelector((state)=>state.data?.patients) || []
+
+  useEffect(() => {
+    setData((prevData) => ({ ...prevData, comment }));
+  }, [comment]);
 
   useEffect(()=>{
     dispatch(getStaff('Nurse'))
@@ -135,6 +143,14 @@ export default function AddVital() {
             </select>
         </div>
         <div className='input-container'>
+            <label htmlFor="">Date</label>
+            <input type="date"
+              className='input'
+              name='date'
+              onChange={handleChange}  
+            />
+        </div>
+        <div className='input-container'>
             <label htmlFor="">BP level</label>
             <input type="text"
               className='input'
@@ -168,6 +184,14 @@ export default function AddVital() {
                placeholder='eg 35'
                name='age'
                onChange={handleChange}
+            />
+        </div>
+        <div className="editor-container">
+          <label htmlFor="" className='edtor-label'>Nurse`s Comment</label>
+           <ReactQuill className="editor-input" 
+            theme="snow" value={comment} 
+            onChange={setComment} 
+            placeholder='Write vital comment here..'
             />
         </div>
         </DialogContent>

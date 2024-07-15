@@ -49,7 +49,6 @@ const RequestList = () => {
 
   const dep = useSelector(state => state.count?.depValue) || [2];
 
-console.log(type)
   useEffect(() => {
       const fetchData = async () => {
           try {
@@ -58,7 +57,6 @@ console.log(type)
                   throw new Error('Failed to fetch data');
               }
               const fetchedData = await response.json();
-              console.log(fetchedData)
 
               const columns = [
                 { label: 'ID', field: 'id', sort: 'asc',  },
@@ -179,6 +177,13 @@ console.log(type)
                             name={"Request"}
                             id={item.request_id}
                             patient_id={item.patient_id}
+                            doctor_id={item.doctor_id}
+                            request_type={item.request_id}
+                            method={item.method}
+                            test_name={item.test_name}
+                            date={item.date}
+                            patient_name={item.patient_name}
+                            doctor_name={item.doctor_name}
                            />
                       )
                   })),

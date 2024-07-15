@@ -8,13 +8,13 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../Buttons/Button';
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import axios from "axios";
 import { depCountActions } from '../../store/depCount';
 import { useLocation } from 'react-router-dom';
-import { toast} from 'react-toastify';
+import { useState, useEffect } from 'react';
 import {handleToastSuccess, handleToastError} from "../../store/modalState"
-
+import {getPatient} from "../../store/data"
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -25,29 +25,41 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ManagePatient({name,id,patient,age,sex,email,blood_group,phone,birth,address}) {
+export default function ManagePatient({name,id,patient,age,sex,email,blood_group,phone,birth,address,profile}) {
 
   const navigate = useNavigate()
   const location = useLocation()
   const route = location.pathname.split('/')[1]
+  // const patient = useSelector((state)=>state.data.patient)
+  const existingProfile = profile !== null? profile : ''
 
-  const [open, setOpen] = React.useState(false);
-  const [data, setData] = React.useState({
-    name:patient,
-    email:email, 
-    phone:phone, 
-    address:address, 
-    age:age, 
-    sex:sex, 
-    birth_date:birth, 
-    blood_group:blood_group,
+  const [open, setOpen] = useState(false);
+  const[file, setFile] = useState(null);
+  const [data, setData] = useState({
+    name:'',
+    email:'', 
+    phone:'', 
+    address:'', 
+    age:'', 
+    sex:'', 
+    birth_date:'', 
+    blood_group:'',
   })
-
 
   const dispatch = useDispatch()
 
   const handleClickOpen = () => {
     setOpen(true);
+    setData({
+      name:patient,
+      email:email, 
+      phone:phone, 
+      address:address, 
+      age:age, 
+      sex:sex, 
+      birth_date:birth, 
+      blood_group:blood_group
+    })
   };
 
   const handleDepCount =()=>{
@@ -63,9 +75,36 @@ export default function ManagePatient({name,id,patient,age,sex,email,blood_group
     })
   }
 
+  useEffect(()=>{
+    dispatch(getPatient(id))
+  },[id])
+
+
+  const upload = async ()=>{
+    try{
+        const formData = new FormData();
+        formData.append("file", file)
+        const res = await axios.post("http://localhost:5000/upload", formData)
+        return res.data
+    }catch(err){
+        console.log(err)
+    }
+ }
+
   const handleUpdate = async() => {
+    const imgUrl = await upload()
     try {
-      const response = await axios.put(`http://localhost:5000/update_patient/${id}`, data);
+      const response = await axios.put(`http://localhost:5000/update_patient/${id}`, {
+        name:data.name,
+        email:data.email, 
+        phone:data.phone, 
+        address:data.address, 
+        age:data.age, 
+        sex:data.sex, 
+        birth_date:data.birth_date, 
+        blood_group:data.blood_group,
+        profile:file? imgUrl : existingProfile
+      });
       if(response.status === 201){
         handleDepCount()
         handleClose()
@@ -103,7 +142,7 @@ export default function ManagePatient({name,id,patient,age,sex,email,blood_group
   if (name === undefined) {
     return null; 
   }
-
+console.log(existingProfile)
 
   return (
     <React.Fragment>
@@ -197,7 +236,7 @@ export default function ManagePatient({name,id,patient,age,sex,email,blood_group
             <input type="text"
                className='input'
                placeholder='eg AB+'
-               value={data.lood_group}
+               value={data.blood_group}
                name='blood_group'
                onChange={hadnleChange}  
             />
@@ -207,10 +246,26 @@ export default function ManagePatient({name,id,patient,age,sex,email,blood_group
             <input type="text"
                className='input'
                placeholder='eg 24/03/2000'
-               value={data.birth}
+               value={data.birth_date}
                name='birth_date'
                onChange={hadnleChange}  
             />
+          </div>
+          <div className='input-container'>
+              <label htmlFor="" className='label'>Profile Image</label>
+              <input type="file" 
+              name="file" id="file" 
+              onChange={e=>setFile(e.target.files[0])}
+             />
+             {(existingProfile && !file) && 
+              <img 
+               src={require(`../../uploads/${existingProfile}`)}
+               alt="" 
+               style={{
+                width:'15%',
+                height:"15%"
+               }}
+               />}
           </div>
         </DialogContent>
         <DialogActions>

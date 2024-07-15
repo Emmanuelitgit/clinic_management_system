@@ -26,7 +26,6 @@ const Navbar = () => {
    const route = location.pathname.split("/")[1];
    const dep = useSelector(state => state.count?.depValue) || [2];
 
-console.log(user)
 
    useEffect(()=>{
     const getsettings = async()=>{

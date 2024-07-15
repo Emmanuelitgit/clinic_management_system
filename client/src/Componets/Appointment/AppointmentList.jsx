@@ -52,6 +52,12 @@ const AppointmentList = () => {
                           name={"Appointment"}
                           id={item.appointment_id}
                           patient_id={item.patient_id}
+                          date={item.date}
+                          doctor_id={item.doctor_id}
+                          doctor_name={item.doctor_name}
+                          patient_name={item.patient_name}
+                          title={item.title}
+                          desc={item.description}
                           />
                       )
                   })),

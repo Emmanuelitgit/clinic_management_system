@@ -45,12 +45,15 @@ const Login = () => {
         const { name } = response.data.data[0];
         const { token } = response.data;
         const { staff_id } = response.data.data[0];
+        const { profile } = response.data.data[0];
 
+        console.log(response)
   
         localStorage.setItem("role", role)
         localStorage.setItem("user", name);
         localStorage.setItem("token", token);
         localStorage.setItem("userId", staff_id)
+        localStorage.setItem("profile", profile)
   
         dispatch(handleToastSuccess("Login Success"))
   

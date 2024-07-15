@@ -22,8 +22,6 @@ const PatientList = () => {
             }
             const fetchedData = await response.json()
 
-            console.log(fetchedData)
-
               const columns = [
                   { label: 'ID', field: 'id', sort: 'asc' },
                   { label: 'PATIENT NAME', field: 'name', sort: 'asc' },
@@ -60,6 +58,7 @@ const PatientList = () => {
                           birth={item.birth_date}
                           phone={item.phone}
                           blood_group={item.blood_group}
+                          profile={item.profile}
                            />
                       )
                   })),

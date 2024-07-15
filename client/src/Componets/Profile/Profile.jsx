@@ -4,10 +4,13 @@ import { useLocation } from 'react-router-dom';
 import AddStaff from "../../Pages/Admin/Add Staff/AddStaff";
 import ManageProfile from './ManageProfile';
 import { Man } from '@mui/icons-material';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
 
-    const[data, setData] = useState()
+    const[data, setData] = useState();
+    const[profile, setProfile] = useState();
+    const dep = useSelector(state => state.count?.depValue) || [2];
     const location = useLocation();
     const id = location.pathname.split("/")[3]; 
 
@@ -33,20 +36,23 @@ const Profile = () => {
             console.log("faild to fetch data...")
             }
             const fetchedData = await response.json()
+            const { profile } = fetchedData[0];
+            setProfile(profile)
             setData(fetchedData)
             } catch (error) {
                 console.log(error)
             }
         }
         getStaff()
-    }, [])
+    }, [dep])
 
   return (
     <div className='view-staff-container'>
          <div className='view-staff-sub-container'>
             <div className="view-staff-profile-items">
                 <span className="view-staff-profile-item ">{name}</span>
-                <img src={doctor} alt=""  className='view-staff-profile'/>
+                  {profile && <img src={require(`../../uploads/${profile}`)} alt=""  className='view-staff-profile'/>}
+                  {!profile && <img src={require(`../../uploads/default.png`)} alt=""  className='view-staff-profile'/>}
                 <span className="view-staff-profile-item profile-item-role">{role}</span>
             </div>
          </div>
@@ -102,7 +108,13 @@ const Profile = () => {
               top:"90%",
               left:'90%'
             }}>
-              <ManageProfile/>
+              <ManageProfile
+               btnName={"Update"}
+               backgroundColor={"green"}
+               padding={'15%'}
+               width={'150%'}
+               color={ 'white'}
+              />
             </div>
     </div>
   )

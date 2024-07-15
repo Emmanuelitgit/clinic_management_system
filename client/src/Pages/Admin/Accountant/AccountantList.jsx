@@ -46,7 +46,15 @@ const AccountantList = () => {
                 <>
                 <ManageStaff
                 name={"Accountant"}
+                staff_name={item.name}
                 id={item.staff_id} 
+                profile={item.profile}
+                role={item.role}
+                phone={item.phone}
+                address={item.address}
+                email={item.email}
+                password={item.password}
+                department={item.department}
                 />
                 </>
               ),

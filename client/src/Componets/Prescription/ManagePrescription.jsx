@@ -29,14 +29,14 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ManagePrescription({name, id, patient_id}) {
+export default function ManagePrescription({name, id, patient_id,doctor_id,medication,date,desc,patient_name,doctor_name}) {
 
   const navigate = useNavigate()
   const location = useLocation()
   const route = location.pathname.split("/")[1]
 
   const [open, setOpen] = React.useState(false);
-  const[description, setDescription] = useState()
+  const[description, setDescription] = useState(desc)
   const [data, setData] = useState({
     patient_id:null,
     doctor_id:null,
@@ -54,6 +54,10 @@ export default function ManagePrescription({name, id, patient_id}) {
   }, [dispatch])
 
   useEffect(()=>{
+    setDescription(desc)
+  }, [open])
+
+  useEffect(()=>{
     dispatch(getPatients())
   }, [dispatch])
 
@@ -63,6 +67,12 @@ export default function ManagePrescription({name, id, patient_id}) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    setData({
+      patient_id:patient_id,
+      doctor_id:doctor_id,
+      medication:medication,
+      date:date
+    })
   };
 
   const handleNavigate = () =>{
@@ -150,7 +160,7 @@ export default function ManagePrescription({name, id, patient_id}) {
         <div className='input-container'>
           <label htmlFor="">Patient</label>
             <select name="patient_id" onChange={handleChange} value={data.patient} className='dropdown'>
-              <option value="">--Select Patient--</option>
+              <option value={data.patient_id}>{patient_name}</option>
               {patients?.map((item)=>(
                 <option value={item.patient_id} key={item.patient_id}>
                   {item.name}
@@ -161,7 +171,7 @@ export default function ManagePrescription({name, id, patient_id}) {
         <div className='input-container'>
           <label htmlFor="">Doctor</label>
             <select name="doctor_id" onChange={handleChange} value={data.doctor}  className='dropdown'>
-              <option value="">--Select Doctor--</option>
+              <option value={data.doctor_id}>{doctor_name}</option>
               {doctors?.map((item)=>(
                 <option value={item.staff_id} key={item.staff_id}>
                   {item.name}
@@ -175,6 +185,7 @@ export default function ManagePrescription({name, id, patient_id}) {
               className='input'
               placeholder='eg Mohammed Yidana'
               name='medication'
+              value={data.medication}
               onChange={handleChange} 
             />
         </div>
@@ -183,6 +194,7 @@ export default function ManagePrescription({name, id, patient_id}) {
             <input type="date"
               className='input'
               name='date'
+              value={data.date}
               onChange={handleChange}  
             />
         </div>

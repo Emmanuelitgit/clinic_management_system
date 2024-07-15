@@ -9,9 +9,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Add } from '@mui/icons-material';
 import { useDispatch} from 'react-redux';
 import { useLocation } from "react-router-dom";
+import { useState } from 'react';
 import { depCountActions } from '../../../store/depCount';
 import axios from "axios";
-import {exhaustiveUniqueRandom} from 'unique-random';
 import 'react-toastify/dist/ReactToastify.css';
 import { handleToastError, handleToastSuccess } from '../../../store/modalState';
 
@@ -30,6 +30,7 @@ export default function AddStaff({name}) {
   const location = useLocation();
   const role = location.pathname.split("/")[2].replace("-list", "");
   const [open, setOpen] = React.useState(false);
+  const[file, setFile] = useState(null);
   const [data, setData] = React.useState({
     name:"",
     role:role,
@@ -40,6 +41,16 @@ export default function AddStaff({name}) {
     department:"",
   })
 
+  const upload = async ()=>{
+    try{
+        const formData = new FormData();
+        formData.append("file", file)
+        const res = await axios.post("http://localhost:5000/upload", formData)
+        return res.data
+    }catch(err){
+        console.log(err)
+    }
+}
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -66,8 +77,18 @@ export default function AddStaff({name}) {
 
 
   const handleSubmit = async() => {
+    const imgUrl = await upload()
     try {
-      const response = await axios.post(`http://localhost:5000/add_staff`, data);
+      const response = await axios.post(`http://localhost:5000/add_staff`, {
+        name:data.name,
+        role:data.role,
+        phone:data.phone,
+        address:data.address,
+        email:data.email,
+        password:data.password,
+        department:data.department,
+        profile:file? imgUrl : ""
+      });
       if(response.status === 201){
         handleDepCount()
         handleClose()
@@ -78,8 +99,7 @@ export default function AddStaff({name}) {
     }
   };
 
-
-  return (
+return (
     <React.Fragment>
       <button className='add-btn'
       onClick={handleClickOpen}
@@ -162,6 +182,10 @@ export default function AddStaff({name}) {
                name='address'
                onChange={handleChange}
             />
+          </div>
+          <div className='input-container'>
+              <label htmlFor="" className='label'>Profile Image</label>
+              <input type="file" name="file" id="file" onChange={e=>setFile(e.target.files[0])} />
           </div>
         </DialogContent>
         <DialogActions>

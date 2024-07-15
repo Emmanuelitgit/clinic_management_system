@@ -147,14 +147,12 @@ export default function ManageSettings({name,email,phone,language,currency,addre
             />
           </div>
           <div className='input-container'>
-            <label htmlFor="" className='label'>Currency</label>
-            <input type="text"
-               className='input'
-               placeholder='USD or GHC'
-               name='currency'
-               onChange={handleChange}
-               value={data.currency}
-            />
+          <label htmlFor="">Currency</label>
+            <select name="currency" onChange={handleChange} className='dropdown'>
+              <option value="">{data.currency}</option>
+              <option value='USD'>USD</option>
+              <option value="GHC">GHC</option>
+            </select>
           </div>
           <div className='input-container'>
             <label htmlFor="" className='label'>Language</label>

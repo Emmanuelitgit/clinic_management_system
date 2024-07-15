@@ -27,12 +27,12 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ManageDepartment({name, id}) {
+export default function ManageDepartment({name, id, desc}) {
 
   const navigate = useNavigate()
 
   const [open, setOpen] = useState(false);
-  const[description, setDescription] = useState()
+  const[description, setDescription] = useState(desc)
   const [data, setData] = useState({
     name:'',
     description:description
@@ -43,8 +43,15 @@ export default function ManageDepartment({name, id}) {
     setData((prevData) => ({ ...prevData, description }));
   }, [description]);
 
+  useEffect(()=>{
+    setDescription(desc)
+  }, [open])
+
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpen(true)
+    setData({
+      name:name,
+    })
   };
 
   const handleChange = (e) =>{
@@ -99,11 +106,6 @@ export default function ManageDepartment({name, id}) {
     return null; 
   }
 
-  if (name === undefined) {
-    return null; 
-  }
-
-
   return (
     <React.Fragment>
       <Button
@@ -116,7 +118,7 @@ export default function ManageDepartment({name, id}) {
         open={open}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-         Update {name}
+         Update Department
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -133,17 +135,23 @@ export default function ManageDepartment({name, id}) {
         <DialogContent dividers>
 
           <div className='input-container'>
-            <label htmlFor="">{name} Name</label>
+            <label htmlFor="">Department Name</label>
             <input type="text"
              className='input'
              placeholder='eg Public Health'
              name='name'
+             value={data.name}
              onChange={handleChange} 
           />
           </div>
           <div className="editor-container">
             <label htmlFor="" className='edtor-label'>Department Description</label>
-            <ReactQuill className="editor-input" theme="snow" value={description} onChange={setDescription} />
+            <ReactQuill 
+             className="editor-input" 
+             theme="snow" 
+             value={description} 
+             onChange={setDescription} 
+             />
          </div>
         </DialogContent>
         <DialogActions>

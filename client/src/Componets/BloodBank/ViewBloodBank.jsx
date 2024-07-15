@@ -9,7 +9,11 @@ const ViewBloodBank = () => {
     const location = useLocation();
     const id = location.pathname.split("/")[3];
     let blood_group = data?.map((d)=>d?.blood_group)
- 
+
+    const getText = (html) =>{
+      const doc = new DOMParser().parseFromString(html, "text/html")
+      return doc.body.textContent
+   }
 
     useEffect(()=>{
         const getStaff = async()=>{
@@ -43,7 +47,7 @@ const ViewBloodBank = () => {
                    <tbody>
                      {data?.map((blood)=>(
                      <tr className='medical-history-td-tr view-patient-tr' key={blood.blood_bank_id}>
-                       <td className='medical-history-td-tr'>{blood.description}</td>
+                       <td className='medical-history-td-tr'>{getText(blood.description)}</td>
                        <td className='medical-history-td-tr'>{blood.status}</td>
                        <td className='medical-history-td-tr'>{blood.blood_group}</td>
                      </tr>
