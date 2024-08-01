@@ -26,6 +26,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function AddBloodBank() {
 
+  axios.defaults.withCredentials = true;
+
   const dispatch = useDispatch()
   const [open, setOpen] = React.useState(false);
   const [data, setData] = useState({

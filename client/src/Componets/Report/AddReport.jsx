@@ -30,6 +30,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function AddReport({name}) {
 
+  axios.defaults.withCredentials = true;
+
   const location = useLocation()
 
   const route = location.pathname.split("/")[2];

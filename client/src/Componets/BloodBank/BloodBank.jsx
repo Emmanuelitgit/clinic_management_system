@@ -18,7 +18,10 @@ const BloodBank = () => {
   useEffect(() => {
       const fetchData = async () => {
           try {
-              const response = await fetch('http://localhost:5000/blood_bank_list');
+              const response = await fetch('http://localhost:5000/blood_bank_list', {
+                method: 'GET',
+                credentials: 'include', // Important for including cookies
+            });
               if (!response.ok) {
                   throw new Error('Failed to fetch data');
               }

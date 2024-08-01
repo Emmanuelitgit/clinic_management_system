@@ -28,6 +28,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function AddMedicine() {
 
+  axios.defaults.withCredentials = true;
+
   const dispatch = useDispatch()
 
   const [open, setOpen] = React.useState(false);
@@ -58,7 +60,10 @@ export default function AddMedicine() {
   useEffect(()=>{
     const getCategories =async()=>{
       try {
-        const response = await fetch('http://localhost:5000/medicine_categories');
+        const response = await fetch('http://localhost:5000/medicine_categories', {
+          method: 'GET',
+          credentials: 'include', // Important for including cookies
+      });
         if(!response.ok){
           throw new Error('Failed to fetch data');
         }

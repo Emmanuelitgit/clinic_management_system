@@ -29,6 +29,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function ManageDepartment({name, id, desc}) {
 
+  axios.defaults.withCredentials = true;
+
   const navigate = useNavigate()
 
   const [open, setOpen] = useState(false);

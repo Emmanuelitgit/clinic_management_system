@@ -20,9 +20,9 @@ const NurseBoxes = () => {
     const bedAllotments = useSelector((state)=>state.data?.bedAllotment);
 
 
-    const birth_report = reports.filter((data) => data?.report_type?.toLowerCase() === "birth report");
-    const death_report = reports.filter((data) => data?.report_type?.toLowerCase() === "death report");
-    const operation_report = reports.filter((data) => data?.report_type?.toLowerCase() === "operation report");
+    const birth_report = reports?.filter((data) => data?.report_type?.toLowerCase() === "birth report");
+    const death_report = reports?.filter((data) => data?.report_type?.toLowerCase() === "death report");
+    const operation_report = reports?.filter((data) => data?.report_type?.toLowerCase() === "operation report");
 
     useEffect(()=>{
         dispatch(getPatients())
@@ -54,49 +54,49 @@ const NurseBoxes = () => {
           name:"Patient",
           background:"bg-primary",
           link:'/nurse/patient-list',
-          total: patients.length
+          total: patients?.length
         },
       {
         id:7,
         name:"Appointment",
         background:"bg-warning",
         link:'/nurse/appointment-list',
-        total: appointments.length
+        total: appointments?.length
       },
       {
         id:9,
         name:"Blood Bank",
         background:"bg-success",
         link:'/nurse/blood-bank',
-        total: bloodBank.length
+        total: bloodBank?.length
       },
       {
         id:11,
         name:"Operation Report",
         background:"purple",
         link:'/nurse/operation-report',
-        total: operation_report.length
+        total: operation_report?.length
       },
       {
         id:12,
         name:"Birth Report",
         background:"bg-danger",
         link:'/nurse/birth-report',
-        total: birth_report.length
+        total: birth_report?.length
       },
       {
         id:13,
         name:"Death Report",
         background:"teal",
         link:'/nurse/death-report',
-        total: death_report.length
+        total: death_report?.length
       },
       {
         id:14,
         name:"Bed Allotment",
         background:"brown",
         link:'/nurse/bed-allotment-list',
-        total: bedAllotments.length
+        total: bedAllotments?.length
       },
       {
         id:15,
@@ -112,7 +112,7 @@ const NurseBoxes = () => {
     <div className=''>
        {role === "nurse" &&
         <div class="row">
-            {nurseBoxes.map((box)=>(
+            {nurseBoxes?.map((box)=>(
             <div className="col-xl-3 col-md-6">
                 <div className={`card ${box.background} text-white mb-4`} style={{
                     height:'14.5vh'
@@ -128,7 +128,7 @@ const NurseBoxes = () => {
                         }}>{box.total}</span>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="text-sm text-white stretched-link" href={box.link}>View Details</a>
+                        <a class="text-sm text-white stretched-link" href={box?.link}>View Details</a>
                         <div class="text-sm text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
                 </div>

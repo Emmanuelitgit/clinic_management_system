@@ -20,10 +20,9 @@ const DoctorBoxes = () => {
     const bloodBank = useSelector((state)=>state.data?.bloodBank);
     const bedAllotments = useSelector((state)=>state.data?.bedAllotment);
 
-
-    const birth_report = reports.filter((data) => data?.report_type?.toLowerCase() === "birth report");
-    const death_report = reports.filter((data) => data?.report_type?.toLowerCase() === "death report");
-    const operation_report = reports.filter((data) => data?.report_type?.toLowerCase() === "operation report");
+    const birth_report = reports?.filter((data) => data?.report_type?.toLowerCase() === "birth report");
+    const death_report = reports?.filter((data) => data?.report_type?.toLowerCase() === "death report");
+    const operation_report = reports?.filter((data) => data?.report_type?.toLowerCase() === "operation report");
 
 
     useEffect(()=>{
@@ -115,20 +114,20 @@ const DoctorBoxes = () => {
     <div className=''>
         {role === "doctor" &&
         <div class="row">
-            {doctorBoxes.map((box)=>(
+            {doctorBoxes?.map((box)=>(
             <div className="col-xl-3 col-md-6">
                 <div className={`card ${box.background} text-white mb-4`} style={{
                     height:'14.5vh'
                 }}>
                     <div class="card-body">
-                        <span className='text-lg'>{box.name}</span>
+                        <span className='text-lg'>{box?.name}</span>
                         <span style={{
                              position:"absolute",
                              top:"10%",
                              left:'80%',
                              fontSize:'18px',
                              fontWeight:600
-                        }}>{box.total}</span>
+                        }}>{box?.total}</span>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
                         <a class="text-sm text-white stretched-link" href={box.link}>View Details</a>

@@ -24,14 +24,14 @@ const AccountantBoxes = () => {
           name:"Invoice/Take Payment",
           background:"bg-primary",
           link:'/accountant/invoice-list',
-          total: invoiceList.length
+          total: invoiceList?.length
         },
       {
         id:7,
         name:"View Payment",
         background:"bg-warning",
         link:'/accountant/payment-list',
-        total: invoiceList.length
+        total: invoiceList?.length
       },
       ]
 
@@ -40,13 +40,13 @@ const AccountantBoxes = () => {
     <div className=''>
         {role === "accountant" &&
         <div class="row">
-            {accountantBoxes.map((box)=>(
+            {accountantBoxes?.map((box)=>(
             <div className="col-xl-3 col-md-6">
                 <div className={`card ${box.background} text-white mb-4`} style={{
                     height:'14.5vh'
                 }}>
                     <div class="card-body">
-                        <span className='text-lg'>{box.name}</span>
+                        <span className='text-lg'>{box?.name}</span>
                         <span style={{
                              position:"absolute",
                              top:"10%",
@@ -56,7 +56,7 @@ const AccountantBoxes = () => {
                         }}>{box.total}</span>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="text-sm text-white stretched-link" href={box.link}>View Details</a>
+                        <a class="text-sm text-white stretched-link" href={box?.link}>View Details</a>
                         <div class="text-sm text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
                 </div>

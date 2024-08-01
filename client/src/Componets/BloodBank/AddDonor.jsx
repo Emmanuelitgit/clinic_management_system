@@ -27,6 +27,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function AddDonor() {
 
+  axios.defaults.withCredentials = true;
+
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({

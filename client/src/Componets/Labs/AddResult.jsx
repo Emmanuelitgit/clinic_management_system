@@ -29,6 +29,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function AddResult() {
+
+  axios.defaults.withCredentials = true;
+  
   const dispatch = useDispatch();
 
   const open = useSelector((state) => state.modal.resultModal);

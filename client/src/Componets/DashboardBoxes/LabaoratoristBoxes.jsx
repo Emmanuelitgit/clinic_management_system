@@ -12,10 +12,10 @@ const LaboratoristBoxes = () => {
     const dispatch = useDispatch()
     const role = localStorage.getItem('role').toLowerCase()
 
-    const bloodBank = useSelector((state)=>state.data?.bloodBank);
+    const bloodBank = useSelector((state)=>state?.data?.bloodBank);
     const dep = useSelector(state => state.count?.depValue) || [2];
-    const labResult = useSelector(state => state.data?.labResult)
-    const bloodDonors = useSelector(state => state.data?.bloodDonors)
+    const labResult = useSelector(state => state?.data?.labResult)
+    const bloodDonors = useSelector(state => state?.data?.bloodDonors)
 
 
     useEffect(()=>{
@@ -43,21 +43,21 @@ const LaboratoristBoxes = () => {
       name:"Lab Result",
       background:"bg-warning",
       link:'/laboratorist/lab-result',
-      total: labResult.length
+      total: labResult?.length
     },
   {
     id:7,
     name:"Blood Bank",
     background:"bg-success",
     link:'/laboratorist/blood-bank',
-    total: bloodBank.length
+    total: bloodBank?.length
   },
   {
     id:9,
     name:"Blood Donor",
     background:"purple",
     link:'/laboratorist/blood-donor',
-    total: bloodDonors.length
+    total: bloodDonors?.length
   },
   ]
 
@@ -65,13 +65,13 @@ const LaboratoristBoxes = () => {
     <div className=''>
         {role === "laboratorist" &&
         <div class="row">
-            {laboratoristBoxes.map((box)=>(
+            {laboratoristBoxes?.map((box)=>(
             <div className="col-xl-3 col-md-6">
-                <div className={`card ${box.background} text-white mb-4`} style={{
+                <div className={`card ${box?.background} text-white mb-4`} style={{
                     height:'14.5vh'
                 }}>
                     <div class="card-body">
-                        <span className='text-lg'>{box.name}</span>
+                        <span className='text-lg'>{box?.name}</span>
                         <span style={{
                              position:"absolute",
                              top:"10%",
@@ -81,7 +81,7 @@ const LaboratoristBoxes = () => {
                         }}>{box.total}</span>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="text-sm text-white stretched-link" href={box.link}>View Details</a>
+                        <a class="text-sm text-white stretched-link" href={box?.link}>View Details</a>
                         <div class="text-sm text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
                 </div>

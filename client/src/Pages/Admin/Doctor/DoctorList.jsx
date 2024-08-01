@@ -24,7 +24,10 @@ const DoctorList = () => {
     const fetchData = async()=>{
       try {
 
-        const response = await fetch(`http://localhost:5000/staff/${role}`)
+        const response = await fetch(`http://localhost:5000/staff/${role}`, {
+          method: 'GET',
+          credentials: 'include', // Important for including cookies
+      })
         if(!response.ok){
           throw new Error("faild to fetch")
         }

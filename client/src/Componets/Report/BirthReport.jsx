@@ -36,7 +36,10 @@ const type = route?.split('-').map(word => word.charAt(0).toUpperCase() + word.s
   useEffect(() => {
       const fetchData = async () => {
           try {
-              const response = await fetch(`http://localhost:5000/reports/${type}`);
+              const response = await fetch(`http://localhost:5000/reports/${type}`, {
+                method: 'GET',
+                credentials: 'include', // Important for including cookies
+            });
               if (!response.ok) {
                   throw new Error('Failed to fetch data');
               }

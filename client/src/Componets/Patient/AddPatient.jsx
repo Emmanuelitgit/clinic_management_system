@@ -25,6 +25,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function AddPatient() {
 
+  axios.defaults.withCredentials = true;
+
   const [open, setOpen] = React.useState(false);
   const[file, setFile] = useState(null);
   const [data, setData] = React.useState({

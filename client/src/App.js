@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import "../src/Componets/Style/style.css"
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import AdminNavs from "./Componets/Navs/AdminNavs"
@@ -62,7 +62,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import '@coreui/coreui/dist/css/coreui.min.css'
 import Chat from "./Componets/Chat/ChatContainer/Chat"
-
+import axios from 'axios';
 
 const Admin =()=>{
  return(
@@ -286,9 +286,30 @@ const router = createBrowserRouter([
 
 
 function App() {
+
+  axios.defaults.withCredentials = true;
+
+  const [authenticated, setAuthenticated] = useState(null)
+
+  useEffect(()=>{
+    const getToken = async()=>{
+        try {
+          const token = localStorage.getItem("token")
+          setAuthenticated(token)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    getToken()
+}, [])
+
   return (
     <div className="App">
       <div className=''>
+        {/* {authenticated? 
+         <RouterProvider router={router}/>:
+         <Login/>
+        } */}
         <RouterProvider router={router}/>
       </div>
     </div>

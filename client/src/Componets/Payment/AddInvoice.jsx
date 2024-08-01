@@ -31,6 +31,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function AddInvoice() {
 
+  axios.defaults.withCredentials = true;
+
   const [open, setOpen] = React.useState(false);
   const[description, setDescription] = useState()
   const [data, setData] = useState({

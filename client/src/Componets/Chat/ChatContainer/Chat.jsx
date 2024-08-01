@@ -13,6 +13,9 @@ import Messages from '../Messages/Messages';
 const socket = io('http://localhost:5000');
 
 function Chat() {
+    
+    axios.defaults.withCredentials = true;
+
     const dispatch = useDispatch();
     const [receiverId, setReceiverId] = useState(null);
     const [message, setMessage] = useState('');

@@ -24,6 +24,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function ManageProfile({ name,backgroundColor,padding,color,width,marginRight,btnName,handleProfileClose }) {
+
+  axios.defaults.withCredentials = true;
+
   const location = useLocation();
   const role = location.pathname.split("/")[2].replace("-list", "");
   const dep = useSelector(state => state.count?.depValue) || [2];
@@ -88,7 +91,10 @@ export default function ManageProfile({ name,backgroundColor,padding,color,width
     const getStaff = async () => {
       const id = localStorage.getItem("userId");
       try {
-        const response = await fetch(`http://localhost:5000/single_staff/${id}`);
+        const response = await fetch(`http://localhost:5000/single_staff/${id}`, {
+          method: 'GET',
+          credentials: 'include', // Important for including cookies
+      });
         if (!response.ok) {
           console.log("Failed to fetch data...");
         }

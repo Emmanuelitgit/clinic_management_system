@@ -29,6 +29,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function AddVital() {
 
+  axios.defaults.withCredentials = true;
+
   const [open, setOpen] = React.useState(false);
   const[comment, setComment] = useState()
   const [data, setData] = useState({

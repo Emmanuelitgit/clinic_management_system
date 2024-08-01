@@ -13,7 +13,10 @@ const Settings = () => {
   useEffect(()=>{
     const getsettings = async()=>{
       try {
-        const response = await fetch('http://localhost:5000/settings');
+        const response = await fetch('http://localhost:5000/settings', {
+          method: 'GET',
+          credentials: 'include', // Important for including cookies
+      });
         if(!response.ok){
           console.log('faild to fetch data..')
         }

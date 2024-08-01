@@ -24,8 +24,11 @@ const DatatablePage = () => {
     useEffect(() => {
       const fetchData = async () => {
         try {
-
-          const response = await fetch(`http://localhost:5000/departments`)
+          const accessToken = localStorage.getItem("token")
+          const response = await fetch(`http://localhost:5000/departments`, {
+            method: 'GET',
+            credentials: 'include', // Important for including cookies
+        })
           if(!response.ok){
             throw new Error("faild to fetch")
           }

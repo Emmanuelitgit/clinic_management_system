@@ -32,6 +32,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function ManageReport({name,id,patient_id,patient_name,doctor_name,doctor_id,desc,date}) {
 
+  axios.defaults.withCredentials = true;
+
   const navigate = useNavigate()
 
   const location = useLocation()

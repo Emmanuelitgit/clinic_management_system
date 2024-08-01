@@ -32,6 +32,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function ManageVital({name, id, patient_id}) {
 
+  axios.defaults.withCredentials = true;
+
   const navigate = useNavigate()
   const location = useLocation()
   const route = location.pathname.split("/")[1]

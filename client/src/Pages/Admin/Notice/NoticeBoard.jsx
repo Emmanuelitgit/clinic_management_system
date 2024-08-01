@@ -18,7 +18,7 @@ export const NoticeBoard = () => {
   const todayDate = `${year}-${month}-${day}`
 
 
-  const todayAppointments = appointments.filter((data) => data?.date === todayDate);
+  const todayAppointments = appointments?.filter((data) => data?.date === todayDate);
 
 
   useEffect(()=>{
@@ -31,14 +31,14 @@ export const NoticeBoard = () => {
         <span className='notice-header-text'><Menu/> NoticeBoard of daily activities</span>
        </div>
        <div className="notice-items-container">
-        {todayAppointments.map((item)=>(
+        {todayAppointments?.map((item)=>(
            <div className="notice-text-icon-container">
            {/* <div className="notice-icon-container">
               <NoteAltIcon style={{color:'white'}}/>
            </div> */}
            <div className="notice-text-item">
-             <span className='notice-text-title'>{item.title}</span>
-             <p className='notice-p-text'>{item.description}</p>
+             <span className='notice-text-title'>{item?.title}</span>
+             <p className='notice-p-text'>{item?.description}</p>
            </div>
          </div>
         ))}

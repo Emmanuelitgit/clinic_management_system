@@ -20,7 +20,10 @@ const BedAllotmentList = () => {
   useEffect(() => {
       const fetchData = async () => {
           try {
-              const response = await fetch('http://localhost:5000/bed_allotments');
+              const response = await fetch('http://localhost:5000/bed_allotments', {
+                method: 'GET',
+                credentials: 'include', // Important for including cookies
+            });
               if (!response.ok) {
                   throw new Error('Failed to fetch data');
               }

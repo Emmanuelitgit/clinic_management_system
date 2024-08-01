@@ -27,6 +27,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function AddStaff({name}) {
   
+  axios.defaults.withCredentials = true;
+
   const location = useLocation();
   const role = location.pathname.split("/")[2].replace("-list", "");
   const [open, setOpen] = React.useState(false);
@@ -79,25 +81,39 @@ export default function AddStaff({name}) {
   const handleSubmit = async() => {
     const imgUrl = await upload()
     try {
-      const response = await axios.post(`http://localhost:5000/add_staff`, {
-        name:data.name,
-        role:data.role,
-        phone:data.phone,
-        address:data.address,
-        email:data.email,
-        password:data.password,
-        department:data.department,
-        profile:file? imgUrl : ""
-      });
-      if(response.status === 201){
-        handleDepCount()
-        handleClose()
-        dispatch(handleToastSuccess("Successfully Added"))
+      const accessToken = localStorage.getItem("token")
+      if(accessToken){
+        const response = await axios.post(`http://localhost:5000/add_staff`, {
+          name:data.name,
+          role:data.role,
+          phone:data.phone,
+          address:data.address,
+          email:data.email,
+          password:data.password,
+          department:data.department,
+          profile:file? imgUrl : ""
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+        }
+      );
+        if(response.status === 201){
+          handleDepCount()
+          handleClose()
+          dispatch(handleToastSuccess("Successfully Added"))
+        }
+        if(response.status === 401){
+          dispatch(handleToastError('Acess denied'))
+        }
       }
     } catch (error) {
       dispatch(handleToastError("Error! cannot perform operation"))
     }
   };
+
 
 return (
     <React.Fragment>

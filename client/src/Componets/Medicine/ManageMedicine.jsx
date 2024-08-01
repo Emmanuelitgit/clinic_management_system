@@ -29,6 +29,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function ManageMedicine({name, id}) {
 
+  axios.defaults.withCredentials = true;
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()

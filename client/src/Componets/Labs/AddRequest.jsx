@@ -27,6 +27,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function AddRequest() {
 
+  axios.defaults.withCredentials = true;
+
   const [open, setOpen] = React.useState(false);
   const [data, setData] = useState({
     patient_id:null,

@@ -18,12 +18,12 @@ const AdminBoxes = () => {
     const dep = useSelector(state => state.count?.depValue) || [2];
 
 
-    const doctor = getAllStaff.filter((data) => data?.role?.toLowerCase() === "doctor");
-    const nurse = getAllStaff.filter((data) => data?.role?.toLowerCase() === "nurse");
-    const laboratorist = getAllStaff.filter((data) => data?.role?.toLowerCase() === "laboratorist");
-    const pharmacist = getAllStaff.filter((data) => data?.role?.toLowerCase() === "pharmacist");
-    const radiographer = getAllStaff.filter((data) => data?.role?.toLowerCase() === "radiographer");
-    const accountant = getAllStaff.filter((data) => data?.role?.toLowerCase() === "accountant");
+    const doctor = getAllStaff?.filter((data) => data?.role?.toLowerCase() === "doctor");
+    const nurse = getAllStaff?.filter((data) => data?.role?.toLowerCase() === "nurse");
+    const laboratorist = getAllStaff?.filter((data) => data?.role?.toLowerCase() === "laboratorist");
+    const pharmacist = getAllStaff?.filter((data) => data?.role?.toLowerCase() === "pharmacist");
+    const radiographer = getAllStaff?.filter((data) => data?.role?.toLowerCase() === "radiographer");
+    const accountant = getAllStaff?.filter((data) => data?.role?.toLowerCase() === "accountant");
     
 
 
@@ -45,56 +45,56 @@ const AdminBoxes = () => {
         name:"Doctor",
         background:"bg-primary",
         link:'/admin/doctor-list',
-        total: doctor.length
+        total: doctor?.length
       },
       {
         id:2,
         name:"Nurse",
         background:"bg-warning",
         link:'/admin/nurse-list',
-        total: nurse.length
+        total: nurse?.length
       },
       {
         id:3,
         name:"Patient",
         background:"bg-success",
         link:'/admin/patient-list',
-        // total: patients.length
+        // total: patients?.length
       },
       {
         id:4,
         name:"Pharmacist",
         background:"purple",
         link:'/admin/pharmacist-list',
-        total: pharmacist.length
+        total: pharmacist?.length
       },
       {
         id:5,
         name:"Laboratorist",
         background:"bg-danger",
         link:'/admin/laboratorist-list',
-        total: laboratorist.length
+        total: laboratorist?.length
       },
       {
         id:6,
         name:"Accountant",
         background:"teal",
         link:'/admin/accountant-list',
-        total: accountant.length
+        total: accountant?.length
       },
       {
         id:7,
         name:"Radiographer",
         background:"brown",
         link:'/admin/radiographer-list',
-        total: radiographer.length
+        total: radiographer?.length
       },
       {
         id:8,
         name:"Reports",
         background:"bg-info",
         link:'/admin/birth-report',
-        total: reports.length
+        total: reports?.length
       },  
       ]
 
@@ -103,13 +103,13 @@ const AdminBoxes = () => {
 
         {role === "admin" &&
         <div class="row">
-            {adminBoxes.map((box)=>(
+            {adminBoxes?.map((box)=>(
             <div className="col-xl-3 col-md-6">
-                <div className={`card ${box.background} text-white mb-4`} style={{
+                <div className={`card ${box?.background} text-white mb-4`} style={{
                     height:'14.5vh'
                 }}>
                     <div class="card-body">
-                        <span className='text-lg'>{box.name}</span>
+                        <span className='text-lg'>{box?.name}</span>
                         <span style={{
                              position:"absolute",
                              top:"10%",
@@ -119,7 +119,7 @@ const AdminBoxes = () => {
                         }}>{box.total}</span>
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="text-sm text-white stretched-link" href={box.link}>View Details</a>
+                        <a class="text-sm text-white stretched-link" href={box?.link}>View Details</a>
                         <div class="text-sm text-white"><i class="fas fa-angle-right"></i></div>
                     </div>
                 </div>

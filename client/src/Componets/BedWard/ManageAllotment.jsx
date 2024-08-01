@@ -31,6 +31,8 @@ export default function ManageAllotment(
   {name,id,patient_id,allotment_date,discharge_date,bed_id,patient_name,bed_number,bed_type}
 ) {
 
+  axios.defaults.withCredentials = true;
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()

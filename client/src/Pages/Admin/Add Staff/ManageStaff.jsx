@@ -25,6 +25,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function ManageStaff({ name,id,profile,role,phone,address,email,password,department, staff_name}) {
 
+  axios.defaults.withCredentials = true;
+
   const navigate = useNavigate();
   const existingProfile = profile !== null? profile : ''
   const[file, setFile] = useState(null);
@@ -80,6 +82,7 @@ export default function ManageStaff({ name,id,profile,role,phone,address,email,p
   const handleUpdate = async () => {
     const imgUrl = await upload()
     try {
+      const accessToken = localStorage.getItem("token")
       const response = await axios.put(`http://localhost:5000/update_staff/${id}`, {
         name:data.name,
         role:data.role,
@@ -89,7 +92,14 @@ export default function ManageStaff({ name,id,profile,role,phone,address,email,p
         password:data.password,
         department:data.department,
         profile:file? imgUrl : existingProfile
-      });
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+      }
+      }
+    );
       if (response.status === 201) {
         handleDepCount();
         handleClose();
@@ -102,7 +112,13 @@ export default function ManageStaff({ name,id,profile,role,phone,address,email,p
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`http://localhost:5000/remove_staff/${id}`);
+      const accessToken = localStorage.getItem("token")
+      const response = await axios.delete(`http://localhost:5000/remove_staff/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+      }
+      });
       if (response.status === 200) {
         handleDepCount();
         dispatch(handleToastSuccess("Successfully Deleted"))

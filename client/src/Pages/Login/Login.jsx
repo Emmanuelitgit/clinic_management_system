@@ -34,11 +34,15 @@ const Login = () => {
       [name]: value
     }));
   };
+
+  axios.defaults.withCredentials=true;
   
   const handleLogin = async () => {
-    
     try {
-      const response = await axios.post("http://localhost:5000/login", credential);
+      const response = await axios.post("http://localhost:5000/login", credential, {
+        withCredentials: true,
+      });
+      console.log(response.data)
   
       if (response?.status === 200) {
         const { role } = response.data.data[0]; 
@@ -46,8 +50,6 @@ const Login = () => {
         const { token } = response.data;
         const { staff_id } = response.data.data[0];
         const { profile } = response.data.data[0];
-
-        console.log(response)
   
         localStorage.setItem("role", role)
         localStorage.setItem("user", name);
@@ -77,11 +79,14 @@ const Login = () => {
         }, 1000);
       }
     } catch (error) {
+      console.log(error)
       if (error.response?.status === 404) {
         dispatch(handleToastError("Account not found"))
+      }else if(error.response?.status === 400){
+        dispatch(handleToastError("Wrong username or password"))
       }
     }
-  };
+  };  
   
 const handleShowPassword = () => {
   setShowPassword(!showPassword)

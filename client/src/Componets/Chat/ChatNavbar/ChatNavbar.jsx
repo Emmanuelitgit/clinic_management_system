@@ -8,6 +8,8 @@ import { useState, useEffect } from 'react';
 
 const ChatNavbar = ({ receiverId }) => {
 
+    axios.defaults.withCredentials = true;
+
     const location = useLocation()
     const route = location.pathname.split("/")[1]
    

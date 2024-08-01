@@ -24,7 +24,11 @@ const ViewStaff = () => {
     useEffect(()=>{
         const getStaff = async()=>{
             try {
-            const response = await fetch(`http://localhost:5000/single_staff/${id}`)
+            const accessToken = localStorage.getItem("token")
+            const response = await fetch(`http://localhost:5000/single_staff/${id}`, {
+              method: 'GET',
+              credentials: 'include', // Important for including cookies
+          })
             if(!response.ok){
             console.log("faild to fetch data...")
             }

@@ -28,6 +28,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function AddDepartment() {
 
+  axios.defaults.withCredentials = true;
+
   const [open, setOpen] = useState(false);
   const[description, setDescription] = useState()
   const [data, setData] = useState({
@@ -65,7 +67,13 @@ export default function AddDepartment() {
 
   const handleSubmit = async() =>{
     try {
-      const response = await axios.post(`http://localhost:5000/add_department`, data);
+      const accessToken = localStorage.getItem("token")
+      const response = await axios.post(`http://localhost:5000/add_department`, data, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+      }
+      });
       if(response.status === 201){
         handleClose()
         handleDepCount()

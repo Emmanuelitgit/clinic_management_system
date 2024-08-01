@@ -21,7 +21,10 @@ const AppointmentList = () => {
       const fetchData = async () => {
           try {
 
-            const response = await fetch(`http://localhost:5000/appointments`)
+            const response = await fetch(`http://localhost:5000/appointments`, {
+              method: 'GET',
+              credentials: 'include', // Important for including cookies
+          })
             if(!response.ok){
               throw new Error("faild to fetch")
             }

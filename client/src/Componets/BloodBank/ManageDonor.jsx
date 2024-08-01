@@ -30,6 +30,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function ManageDonor({name, id}) {
 
+  axios.defaults.withCredentials = true;
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()

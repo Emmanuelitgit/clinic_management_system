@@ -31,6 +31,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function ManageBloodBank({name, id, blood_group, status}) {
 
+  axios.defaults.withCredentials = true;
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()

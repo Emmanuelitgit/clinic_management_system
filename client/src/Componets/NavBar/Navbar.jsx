@@ -15,6 +15,9 @@ const Navbar = () => {
 
   //  const user = useSelector((state)=>state.auth?.currentUser) || []
   //  const role = useSelector((state)=>state.auth?.role) || []
+
+  axios.defaults.withCredentials = true;
+
   const dispatch = useDispatch()
   const [settings, setSettings] = useState('');
   const [count, setCount] = useState()
@@ -30,7 +33,10 @@ const Navbar = () => {
    useEffect(()=>{
     const getsettings = async()=>{
       try {
-        const response = await fetch('http://localhost:5000/settings');
+        const response = await fetch('http://localhost:5000/settings', {
+          method: 'GET',
+          credentials: 'include', // Important for including cookies
+      });
         if(!response.ok){
           console.log('faild to fetch data..')
         }

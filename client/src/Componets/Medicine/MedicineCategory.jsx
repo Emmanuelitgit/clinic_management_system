@@ -29,7 +29,10 @@ const MedicineCategory = () => {
   useEffect(() => {
       const fetchData = async () => {
           try {
-              const response = await fetch('http://localhost:5000/medicine_categories');
+              const response = await fetch('http://localhost:5000/medicine_categories', {
+                method: 'GET',
+                credentials: 'include', // Important for including cookies
+            });
               if (!response.ok) {
                   throw new Error('Failed to fetch data');
               }

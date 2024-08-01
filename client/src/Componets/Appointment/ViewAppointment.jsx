@@ -29,7 +29,10 @@ const ViewAppointment = () => {
     useEffect(()=>{
         const getStaff = async()=>{
             try {
-            const response = await fetch(`http://localhost:5000/appointment/${id}`)
+            const response = await fetch(`http://localhost:5000/appointment/${id}`, {
+              method: 'GET',
+              credentials: 'include', // Important for including cookies
+          })
             if(!response.ok){
             console.log("faild to fetch data...")
             }

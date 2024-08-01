@@ -29,6 +29,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function AddAppointment() {
 
+  axios.defaults.withCredentials = true;
+
   const [open, setOpen] = useState(false);
   const[description, setDescription] = useState()
   const [data, setData] = useState({

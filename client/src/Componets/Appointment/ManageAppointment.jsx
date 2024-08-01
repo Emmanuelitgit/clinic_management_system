@@ -31,6 +31,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function ManageAppointment({name,id,patient_id,doctor_id,patient_name,date,doctor_name,desc,title}) {
 
+  axios.defaults.withCredentials = true;
+
   const navigate = useNavigate()
   const location = useLocation()
   const route = location.pathname.split('/')[1]

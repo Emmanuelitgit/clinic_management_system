@@ -17,7 +17,10 @@ const Calender = () => {
  }
 
   useEffect(() => {
-    fetch('http://localhost:5000/appointments')
+    fetch('http://localhost:5000/appointments',  {
+      method: 'GET',
+      credentials: 'include', // Important for including cookies
+  })
       .then(response => response.json())
       .then(data => {
         const formattedEvents = data?.map(appointment => ({

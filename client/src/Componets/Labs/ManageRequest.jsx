@@ -32,6 +32,8 @@ export default function ManageRequest(
   {name, id, patient_id,doctor_id,request_type,method,test_name,date,doctor_name,patient_name}
 ) {
 
+  axios.defaults.withCredentials = true;
+
   const navigate = useNavigate()
   const location = useLocation()
   const route = location.pathname.split("/")[1]

@@ -4,10 +4,17 @@ import axios from "axios";
 
 
 
+axios.defaults.withCredentials = true;
 
 export const getStaff = createAsyncThunk("doctors", async (role) => {
     try {
-      const response = await axios.get(`http://localhost:5000/all_staff`);
+      const accessToken = localStorage.getItem("token")
+      const response = await axios.get(`http://localhost:5000/all_staff`, {
+        headers: {
+          // 'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+      }
+      });
       return response.data;
     } catch (err) {
       console.log(err);
@@ -16,7 +23,13 @@ export const getStaff = createAsyncThunk("doctors", async (role) => {
 
   export const getSingleStaff = createAsyncThunk("staff", async (id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/single_staff/${id}`);
+      const accessToken = localStorage.getItem("token")
+      const response = await axios.get(`http://localhost:5000/single_staff/${id}`, {
+        headers: {
+          // 'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+      }
+      });
       return response.data;
     } catch (err) {
       console.log(err);
@@ -25,7 +38,13 @@ export const getStaff = createAsyncThunk("doctors", async (role) => {
 
   export const getPatients = createAsyncThunk("patients", async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/patients`);
+      const accessToken = localStorage.getItem("token")
+      const response = await axios.get(`http://localhost:5000/patients`, {
+        headers: {
+          // 'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+      }
+      });
       return response.data;
     } catch (err) {
       console.log(err);
@@ -34,7 +53,13 @@ export const getStaff = createAsyncThunk("doctors", async (role) => {
 
   export const getPatient = createAsyncThunk("patient", async (id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/patient/${id}`);
+      const accessToken = localStorage.getItem("token")
+      const response = await axios.get(`http://localhost:5000/patient/${id}`, {
+        headers: {
+          // 'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+      }
+      });
       return response.data;
     } catch (err) {
       console.log(err);
@@ -77,7 +102,7 @@ export const getStaff = createAsyncThunk("doctors", async (role) => {
     }
   });
 
-  export const getPrescription = createAsyncThunk("appointments", async () => {
+  export const getPrescription = createAsyncThunk("prescription", async () => {
     try {
       const response = await axios.get(`http://localhost:5000/prescriptions`);
       return response.data;
@@ -216,7 +241,10 @@ export const dataSlice = createSlice({
           })
           .addCase(getSingleStaff.fulfilled, (state,action)=>{
             state.singleStaff = action.payload
-          })                            
+          })
+          .addCase(getPrescription.fulfilled, (state,action)=>{
+            state.prescriptions= action.payload
+          })                               
     }
 })
 

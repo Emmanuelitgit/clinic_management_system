@@ -29,6 +29,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function ManageSettings({name,email,phone,language,currency,address,id}) {
 
+  axios.defaults.withCredentials = true;
+
   const dispatch = useDispatch()
 
   const [open, setOpen] = React.useState(false);
